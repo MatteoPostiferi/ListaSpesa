@@ -33,18 +33,15 @@ public:
     }
 
     void addItem(const Item& item){
+        for(auto l:list ){
+            if (l.second == item){
+                l.second.setQuantity(l.second.getQuantity()+item.getQuantity());
+                break;
+            }
+        }
         list.insert({item.getDescription(),item});
     }
 
-    void addItemPos(const Item& item, int position){
-        int count=0;
-        auto iterator= list.begin();
-        while(count<position) {
-            iterator++;
-            count++;
-        }
-        list.insert({item.getDescription(), item});
-    }
 
 
 
