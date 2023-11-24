@@ -47,6 +47,12 @@ public:
         Item::bought = bought;
     }
 
+    bool operator==(const Item& right){
+        if (description==right.description && category==right.category)
+            return true;
+        else return false;
+    }
+
 
 private:
     std::string description;
