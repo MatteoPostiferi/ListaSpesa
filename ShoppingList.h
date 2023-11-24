@@ -42,7 +42,17 @@ public:
         list.insert({item.getDescription(),item});
     }
 
+    void remove(const Item& item){
+        for(auto l:list ){
+            if (l.second == item){
+                l.second.setQuantity(l.second.getQuantity()-item.getQuantity());
+                if(l.second.getQuantity()<= 0)
+                    list.erase(l.first);
+                break;
+            }
+        }
 
+    }
 
 
 private:
