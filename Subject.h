@@ -15,8 +15,6 @@ public:
     virtual void unregisterObserver(Observer* o) = 0;
     virtual ~Subject(){}
 
-
-
 };
 
 

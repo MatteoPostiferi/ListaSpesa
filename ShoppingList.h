@@ -8,7 +8,6 @@
 
 #include <string>
 #include <map>
-#include <vector>
 #include <list>
 #include "Item.h"
 #include "Subject.h"
@@ -52,6 +51,10 @@ public:
             }
         }
 
+    }
+
+    const std::multimap<std::string, Item> &getList() const {
+        return list;
     }
 
 
