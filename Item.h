@@ -10,7 +10,7 @@
 
 class Item {
 public:
-    Item(const std::string &description, const std::string &category, int quantity, bool bought) : description(
+    Item(const std::string &description, const std::string &category, int quantity, bool bought = false) : description(
             description), category(category), quantity(quantity), bought(bought) {}
 
     virtual ~Item() {}

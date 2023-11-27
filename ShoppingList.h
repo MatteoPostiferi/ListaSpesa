@@ -57,6 +57,10 @@ public:
         return list;
     }
 
+    const std::string &getListName() const {
+        return listName;
+    }
+
 
 private:
     std::string listName;
