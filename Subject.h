@@ -10,7 +10,7 @@
 
 class Subject {
 public:
-    virtual void notify() = 0;
+    virtual void notifyObservers() = 0;
     virtual void registerObserver(Observer* o) = 0;
     virtual void unregisterObserver(Observer* o) = 0;
     virtual ~Subject(){}
