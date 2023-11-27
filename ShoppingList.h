@@ -18,7 +18,7 @@ public:
 
     virtual ~ShoppingList() {}
 
-    void notifyObservers() override {
+    void notify() override {
         for (auto o:observerList)
             o->update();
     }
@@ -35,21 +35,21 @@ public:
         for(auto l:list ){
             if (l.second == item){
                 l.second.setQuantity(l.second.getQuantity()+item.getQuantity());
-                notifyObservers();
+                notify();
                 break;
             }
         }
         list.insert({item.getDescription(),item});
-        notifyObservers();
+        notify();
     }
 
-    void remove(const Item& item){
+    void removeItem(const Item& item){
         for(auto l:list ){
             if (l.second == item){
                 l.second.setQuantity(l.second.getQuantity()-item.getQuantity());
                 if(l.second.getQuantity()<= 0){
                     list.erase(l.first);
-                    notifyObservers();
+                    notify();
                 }
                 break;
             }

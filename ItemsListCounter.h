@@ -20,13 +20,14 @@ public:
         subject->unregisterObserver(this);
     }
 
-    void update() override {
+    int update() override {
         int count= 0;
         for(auto s: subject->getList()){
             if(s.second.isBought()== false)
             count++;
         }
         std::cout<<"There are : "<< count << " items left to buy in: "<< subject->getListName()<< std::endl;
+        return count;
     }
 
 private:
