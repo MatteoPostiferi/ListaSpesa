@@ -41,6 +41,10 @@ public:
         }
     }
 
+    const std::list<ShoppingList> &getListGroup() const {
+        return listGroup;
+    }
+
 private:
     std::list<ShoppingList> listGroup;
 std::string listGroupName;

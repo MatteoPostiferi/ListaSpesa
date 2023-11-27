@@ -7,14 +7,29 @@
 
 
 #include "Observer.h"
+#include "ListGroup.h"
+#include "ItemsListCounter.h"
 
 class TotalItemsCounter : public Observer{
 public:
-    int update() override;
+    explicit TotalItemsCounter(ListGroup* subject) : subject(subject) {
+        subject->registerObserver(this);
+    }
+    ~TotalItemsCounter() override{
+        subject->unregisterObserver(this);
+    }
 
-    ~TotalItemsCounter() override;
+    void update() override{
+        int count= 0;
+        for(auto l: subject->getListGroup()) {
+            count+= itemsListCounter->countItems();
+        }
+        std::cout<<"There are : "<< count << " items left to buy in all lists"<< std::endl;
+    }
 
 private:
+    ListGroup* subject;
+    ItemsListCounter* itemsListCounter;
 
 
 };
