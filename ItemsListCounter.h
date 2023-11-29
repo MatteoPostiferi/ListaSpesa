@@ -23,7 +23,7 @@ public:
     int countItems(){
         int count= 0;
         for(auto s: subject->getList()){
-            if(s.second.isBought())
+            if(s.second.isBought()==false)
             count++;
         }
         return count;

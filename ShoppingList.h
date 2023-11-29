@@ -31,7 +31,7 @@ public:
         observerList.remove(o);
     }
 
-    void addItem(const Item& item){
+    void addToList(const Item& item){
         for(auto l:list ){
             if (l.second == item){
                 l.second.setQuantity(l.second.getQuantity()+item.getQuantity());
@@ -43,7 +43,7 @@ public:
         notify();
     }
 
-    void removeItem(const Item& item){
+    void removeFromList(const Item& item){
         for(auto l:list ){
             if (l.second == item){
                 l.second.setQuantity(l.second.getQuantity()-item.getQuantity());
@@ -55,6 +55,35 @@ public:
             }
         }
 
+    }
+
+    void method(const Item& item) {
+        for (auto l: list) {
+            if (l.second == item) {
+                l.second.setQuantity(l.second.getQuantity() - item.getQuantity());
+                if (l.second.getQuantity() <= 0) {
+                    list.erase(l.first);
+                    notify();
+                    break;
+                }
+            }
+        }
+    }
+
+    void buyItem(const Item& item){
+        for(auto l:list ){
+            if (l.second == item){
+                l.second.setQuantity(l.second.getQuantity()-item.getQuantity());
+                //if(l.second.getQuantity()<= 0)
+                Item
+                notify();
+                break;
+
+
+
+
+            }
+        }
     }
 
     const std::multimap<std::string, Item> &getList() const {
