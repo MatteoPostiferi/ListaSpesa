@@ -47,8 +47,8 @@ public:
         Item::bought = bought;
     }
 
-    bool operator==(const Item& right){    // elementi con stesse descrizione e categoria sono uguali
-        if (description==right.description && category==right.category)
+    bool operator==(const Item &right) {    // elementi con stesse descrizione e categoria sono uguali
+        if (description == right.description && category == right.category)
             return true;
         else return false;
     }
@@ -56,9 +56,9 @@ public:
 
 private:
     std::string description;
-std::string category;
-int quantity;
-bool bought;
+    std::string category;
+    int quantity;
+    bool bought;
 
 };
 

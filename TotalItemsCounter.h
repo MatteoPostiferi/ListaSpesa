@@ -10,26 +10,27 @@
 #include "ListGroup.h"
 #include "ItemsListCounter.h"
 
-class TotalItemsCounter : public Observer{
+class TotalItemsCounter : public Observer {
 public:
-    explicit TotalItemsCounter(ListGroup* subject) : subject(subject) {
+    explicit TotalItemsCounter(ListGroup *subject) : subject(subject) {
         subject->registerObserver(this);
     }
-    ~TotalItemsCounter() override{
+
+    ~TotalItemsCounter() override {
         subject->unregisterObserver(this);
     }
 
-    void update() override{
-        int count= 0;
-        for(auto l: subject->getListGroup()) {
-            count+= itemsListCounter->countItems();
+    void update() override {
+        int count = 0;
+        for (auto l: subject->getListGroup()) {
+            count += itemsListCounter->countItems();
         }
-        std::cout<<"There are : "<< count << " items left to buy in all lists"<< std::endl;
+        std::cout << "There are : " << count << " items left to buy in all lists" << std::endl;
     }
 
 private:
-    ListGroup* subject;
-    ItemsListCounter* itemsListCounter;
+    ListGroup *subject;
+    ItemsListCounter *itemsListCounter;
 
 
 };

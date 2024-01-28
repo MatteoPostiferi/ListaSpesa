@@ -9,15 +9,14 @@
 #include "Subject.h"
 
 
-
-class ListGroup : Subject{
+class ListGroup : Subject {
 public:
     explicit ListGroup(const std::string &listGroupName) : listGroupName(listGroupName) {}
 
     virtual ~ListGroup() {};
 
-    void notify() override{
-        for(auto list: listGroup) {
+    void notify() override {
+        for (auto list: listGroup) {
             list.notify();
         }
     }
@@ -30,13 +29,13 @@ public:
         observerList.remove(o);
     }
 
-    void addList(const ShoppingList& l){
+    void addList(const ShoppingList &l) {
         listGroup.push_back(l);
     }
 
-    void removeList(const ShoppingList& l){
-        for(auto itr= listGroup.begin(); itr!=listGroup.end(); itr++) {
-            if (l.getListName()==itr->getListName())
+    void removeList(const ShoppingList &l) {
+        for (auto itr = listGroup.begin(); itr != listGroup.end(); itr++) {
+            if (l.getListName() == itr->getListName())
                 listGroup.erase(itr);
         }
     }
@@ -47,12 +46,8 @@ public:
 
 private:
     std::list<ShoppingList> listGroup;
-std::string listGroupName;
-std::list<Observer*> observerList;
-
-
-
-
+    std::string listGroupName;
+    std::list<Observer *> observerList;
 
 
 };

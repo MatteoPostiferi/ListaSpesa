@@ -20,23 +20,23 @@ public:
         subject->unregisterObserver(this);
     }
 
-    int countItems(){
-        int count= 0;
-        for(auto s: subject->getList()){
-            if(s.second.isBought()==false)
-            count++;
+    int countItems() {
+        int count = 0;
+        for (auto s: subject->getList()) {
+            if (s.second.isBought() == false)
+                count++;
         }
         return count;
     }
 
 
     void update() override {
-        int count= countItems();
-        std::cout<<"There are : "<< count << " items left to buy in: "<< subject->getListName()<< std::endl;
+        int count = countItems();
+        std::cout << "There are : " << count << " items left to buy in: " << subject->getListName() << std::endl;
     }
 
 private:
-    ShoppingList* subject;
+    ShoppingList *subject;
 };
 
 

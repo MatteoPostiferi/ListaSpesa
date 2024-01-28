@@ -20,7 +20,7 @@ public:
     virtual ~ShoppingList() {}
 
     void notify() override {       //ogni cambiamento del subject viene segnalato all'observer
-        for (auto o:observerList)
+        for (auto o: observerList)
             o->update();
     }
 
@@ -32,80 +32,76 @@ public:
         observerList.remove(o);
     }
 
-    void addToList(const Item& item){    // se l'elemento è gia presente si incrementa la quantità, altrimenti si aggiunge
-        for(auto l:list ){
-            if (l.second == item){
-                l.second.setQuantity(l.second.getQuantity()+item.getQuantity());
+    void
+    addToList(const Item &item) {    // se l'elemento è gia presente si incrementa la quantità, altrimenti si aggiunge
+        for (auto l: list) {
+            if (l.second == item) {
+                l.second.setQuantity(l.second.getQuantity() + item.getQuantity());
                 notify();
                 break;
             }
         }
-        list.insert({item.getDescription(),item});
+        list.insert({item.getDescription(), item});
         notify();
     }
 
-    int decreaseQty(const Item& item) {
+    int decreaseQty(const Item &item) {
         for (auto l: list) {
             if (l.second == item) {
-                l.second.setQuantity(l.second.getQuantity() - item.getQuantity()); //aggiorno la quantità da comprare ancora
+                l.second.setQuantity(
+                        l.second.getQuantity() - item.getQuantity()); //aggiorno la quantità da comprare ancora
                 return l.second.getQuantity();
 
-            }
-            else
+            } else
                 throw std::runtime_error("Elemento non presente nella lista");
         }
-        return
 
     }
-    void removeFromList(const Item& item){
-        decreaseQty(item);
-        if(decreaseQty(item)<= 0)
-            list.erase(l.first);
-                    notify();
 
+    void removeFromList(const Item &item) {
+        for (auto l: list) {
+            if (l.second == item && decreaseQty(item) <= 0) {
+                list.erase(l.first);
+                notify();
                 break;
-
-
-
+            }
+        }
     }
 
 
-
-    void buyItem( Item& item) {
+    void buyItem(Item &item) { // da rivedere, nel caso in cui la quantirà è > 0 che faccio? imposto bought a true o no?
         decreaseQty(item);
         if (decreaseQty(item) <= 0) //imposto bool a true se la quantità è <= 0
             item.setBought(true);
         notify();
     }
 
-        /*void buyItem(const Item &item) {
-            for (auto l: list) {
-                if (l.second == item) {
-                    l.second.setQuantity(l.second.getQuantity() - item.getQuantity());
-                    if (l.second.getQuantity() <= 0)
-                        l.second.setBought(true);
-                    notify();
+    /*void buyItem(const Item &item) {
+        for (auto l: list) {
+            if (l.second == item) {
+                l.second.setQuantity(l.second.getQuantity() - item.getQuantity());
+                if (l.second.getQuantity() <= 0)
+                    l.second.setBought(true);
+                notify();
 
-                }
             }
-        }*/
-
-        const std::multimap<std::string, Item> &getList() const {
-            return list;
         }
+    }*/
 
-        const std::string &getListName() const {
-            return listName;
-        }
+    const std::multimap<std::string, Item> &getList() const {
+        return list;
+    }
 
+    const std::string &getListName() const {
+        return listName;
+    }
 
 
 private:
     std::string listName;
-std::multimap<std::string, Item> list;
-std::list<Observer*> observerList;
-
-;}
+    std::multimap<std::string, Item> list;
+    std::list<Observer *> observerList;;
+}
 
 
 #endif //LISTASPESA_SHOPPINGLIST_H
