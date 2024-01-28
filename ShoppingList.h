@@ -11,6 +11,7 @@
 #include <list>
 #include "Item.h"
 #include "Subject.h"
+#include <stdexcept>
 
 class ShoppingList : public Subject {
 public:
@@ -18,7 +19,7 @@ public:
 
     virtual ~ShoppingList() {}
 
-    void notify() override {
+    void notify() override {       //ogni cambiamento del subject viene segnalato all'observer
         for (auto o:observerList)
             o->update();
     }
@@ -31,7 +32,7 @@ public:
         observerList.remove(o);
     }
 
-    void addToList(const Item& item){
+    void addToList(const Item& item){    // se l'elemento è gia presente si incrementa la quantità, altrimenti si aggiunge
         for(auto l:list ){
             if (l.second == item){
                 l.second.setQuantity(l.second.getQuantity()+item.getQuantity());
@@ -50,6 +51,8 @@ public:
                 return l.second.getQuantity();
 
             }
+            else
+                throw std::runtime_error("Elemento non presente nella lista");
         }
         return
 
