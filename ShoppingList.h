@@ -9,9 +9,11 @@
 #include <string>
 #include <map>
 #include <list>
+#include <algorithm>
 #include "Item.h"
 #include "Subject.h"
 #include <stdexcept>
+#include <iostream>
 
 class ShoppingList : public Subject {
 public:
@@ -19,7 +21,7 @@ public:
 
     virtual ~ShoppingList() {}
 
-    void notify() override {       //ogni cambiamento del subject viene segnalato all'observer
+    void notify() override {       //  ogni cambiamento del subject viene segnalato all'observer
         for (auto o: observerList)
             o->update();
     }
@@ -32,46 +34,56 @@ public:
         observerList.remove(o);
     }
 
-    void
-    addToList(const Item &item) {    // se l'elemento è gia presente si incrementa la quantità, altrimenti si aggiunge
-        for (auto l: list) {
-            if (l.second == item) {
-                l.second.setQuantity(l.second.getQuantity() + item.getQuantity());
-                notify();
-                break;
+    auto search(const Item &item) {
+        for (auto itr = list.begin(); itr != list.end(); itr++) {
+            if (itr->second == item) {
+                return itr;
             }
         }
-        list.insert({item.getDescription(), item});
+        return list.end();
+    }
+
+    void addToList(const Item &item) {  // se l'elemento è gia presente si incrementa la quantità, altrimenti si aggiunge
+        auto itr = search(item);
+        if(itr != list.end())
+            itr->second.setQuantity (itr->second.getQuantity() + item.getQuantity());
+        else
+            list.insert({item.getCategory(), item});
         notify();
     }
 
-    int decreaseQty(const Item &item) {
-        for (auto l: list) {
+    void decreaseQty(const Item &item) { // diminuisco la quantità da comprare di un prodotto
+        bool found = false;              // se l'elemento si trova nella lista aggiorno la quantità da comprare
+        for (auto l: list) {             // altrimenti lancio eccezione
             if (l.second == item) {
-                l.second.setQuantity(
-                        l.second.getQuantity() - item.getQuantity()); //aggiorno la quantità da comprare ancora
-                return l.second.getQuantity();
-
-            } else
-                throw std::runtime_error("Elemento non presente nella lista");
+                found = true;
+                l.second.setQuantity(l.second.getQuantity() - item.getQuantity());
+                // messaggio per stampare
+                break;
+            }
         }
-
+        if (found == false)
+            throw std::runtime_error("Elemento non presente nella lista");
     }
 
-    void removeFromList(const Item &item) {
+    void removeFromList(const Item &item) {  // cancello un elemento dalla lista se non voglio più comprarlo
+        bool found = false;
         for (auto l: list) {
-            if (l.second == item && decreaseQty(item) <= 0) {
+            if (l.second == item) {
+                found = true;
                 list.erase(l.first);
                 notify();
                 break;
             }
         }
+        if (found == false)
+            throw std::runtime_error("Elemento non presente nella lista");
     }
 
 
-    void buyItem(Item &item) { // da rivedere, nel caso in cui la quantirà è > 0 che faccio? imposto bought a true o no?
+    void buyItem(Item &item) {  // imposto bool a true se
         decreaseQty(item);
-        if (decreaseQty(item) <= 0) //imposto bool a true se la quantità è <= 0
+        if (decreaseQty(item) <= 0)
             item.setBought(true);
         notify();
     }
@@ -101,7 +113,7 @@ private:
     std::string listName;
     std::multimap<std::string, Item> list;
     std::list<Observer *> observerList;;
-}
+};
 
 
 #endif //LISTASPESA_SHOPPINGLIST_H
