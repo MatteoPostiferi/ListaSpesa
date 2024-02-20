@@ -20,7 +20,8 @@ public:
 
     virtual ~ShoppingList() {}
 
-    void notify() override {                                      // ogni cambiamento del subject viene segnalato all'observer
+    void
+    notify() override {                                      // ogni cambiamento del subject viene segnalato all'observer
         for (auto o: observerList)
             o->update();
     }
@@ -46,64 +47,73 @@ public:
     void addToList(const Item &item) {                                                 // aggiungo elemento alla lista
         auto itr = search(item);
         if (search(item) != list.end())
-            itr->second.setQuantity (itr->second.getQuantity() + item.getQuantity()); // se l'elemento è già presente nella lista aggiorno la quantità
+            itr->second.setQuantity(itr->second.getQuantity() +
+                                    item.getQuantity()); // se l'elemento è già presente nella lista aggiorno la quantità
         else
             list.insert({item.getCategory(), item});                                  // altrimenti lo aggiungo
         notify();
     }
 
-    void decreaseQty(const Item &item) {                                       // l'oggetto passato mi dice di quale elemento e di quanto diminuire la quantità
+    void decreaseQty(
+            const Item &item) {                                       // l'oggetto passato mi dice di quale elemento e di quanto diminuire la quantità
         auto itr = search(item);
         try {
-            if (search(item) != list.end()) {                                  //controllo se l'elemento è presente nella lista
+            if (search(item) !=
+                list.end()) {                                  //controllo se l'elemento è presente nella lista
                 int newQty = itr->second.getQuantity() - item.getQuantity();
-                if (newQty > 0)                                                //se l'elemento è nella lista e la quantità ancora da comprare è > 0 la aggiorno
+                if (newQty >
+                    0)                                                //se l'elemento è nella lista e la quantità ancora da comprare è > 0 la aggiorno
                     itr->second.setQuantity(newQty);
                 else
-                    list.erase(itr);                                           // quantità <= 0  cancello l'elemento dalla lista
+                    list.erase(
+                            itr);                                           // quantità <= 0  cancello l'elemento dalla lista
             } else
-                throw std::runtime_error("Elemento non presente nella lista"); // se l'elemento non è presente nella lista lancio un'eccezione
+                throw std::runtime_error(
+                        "Elemento non presente nella lista"); // se l'elemento non è presente nella lista lancio un'eccezione
             notify();
         }
-        catch (const std::exception& e) {
-        std::cerr << "Eccezione catturata" << e.what() << std::endl;
-            }
-   }
+        catch (const std::exception &e) {
+            std::cerr << "Eccezione catturata" << e.what() << std::endl;
+        }
+    }
 
-   void removeFromList(const Item &item) {                               // cancello un elemento (se presente nella lista) se non voglio più comprarlo
+    void removeFromList(
+            const Item &item) {                               // cancello un elemento (se presente nella lista) se non voglio più comprarlo
         auto itr = search(item);
         try {
             if (search((item)) != list.end())
                 list.erase(itr);
-        else
-           throw std::runtime_error("Elemento non presente nella lista"); // lancio un'eccezione se l'elemento non è presente nella lista
-        notify();
-        }
-        catch (const std::exception& e){
-            std::cerr << "Eccezione catturata " << e.what() << std::endl;
-        }
-   }
-
-
-   void buyItem(Item &item) {                                             //compro un elemento
-        auto itr = search(item);
-        try{
-        if (search(item) != list.end()){
-            int newQty = itr->second.getQuantity() - item.getQuantity();
-            if (newQty > 0)                                               // se la  quantità ancora da comprare è > 0 la aggiorno
-                itr->second.setQuantity(newQty);
             else
-                itr->second.setBought(true);                             // se la quantità è <= 0 setto l'elemento come comprato
+                throw std::runtime_error(
+                        "Elemento non presente nella lista"); // lancio un'eccezione se l'elemento non è presente nella lista
+            notify();
         }
-        else
-            throw std::runtime_error("Elemento non presente nella lista"); // se l'elemento non è presente nella lista lancio un'eccezione
-        notify();
-        }
-        catch (const std::exception& e){
+        catch (const std::exception &e) {
             std::cerr << "Eccezione catturata " << e.what() << std::endl;
         }
-   }
+    }
 
+
+    void buyItem(Item &item) {                                             //compro un elemento
+        auto itr = search(item);
+        try {
+            if (search(item) != list.end()) {
+                int newQty = itr->second.getQuantity() - item.getQuantity();
+                if (newQty >
+                    0)                                               // se la  quantità ancora da comprare è > 0 la aggiorno
+                    itr->second.setQuantity(newQty);
+                else
+                    itr->second.setBought(
+                            true);                             // se la quantità è <= 0 setto l'elemento come comprato
+            } else
+                throw std::runtime_error(
+                        "Elemento non presente nella lista"); // se l'elemento non è presente nella lista lancio un'eccezione
+            notify();
+        }
+        catch (const std::exception &e) {
+            std::cerr << "Eccezione catturata " << e.what() << std::endl;
+        }
+    }
 
 
     const std::multimap<std::string, Item> &getList() const {
