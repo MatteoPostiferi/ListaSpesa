@@ -16,6 +16,13 @@
 #include <stdexcept>
 #include <iostream>
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//// non sono tollerate le uova e tutte le parole femminili
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 class ShoppingList : public Subject {
 public:
     explicit ShoppingList(const std::string &listName) : listName(listName) {}
@@ -23,7 +30,7 @@ public:
     virtual ~ShoppingList() {}
 
     void
-    notify() override {                                      // ogni cambiamento del subject viene segnalato all'observer
+    notify() override {
         for (auto o: observerList)
             o->update();
     }
@@ -37,84 +44,101 @@ public:
     }
 
 
-    auto search(const Item &item){                                  // ricerca di un elemento nella lista
-
+    auto search(const Item &item) {                                                 // ricerca di un elemento nella lista
         for (auto itr = list.begin(); itr != list.end(); itr++) {
             if (itr->second == item) {
-                return itr;                                         // restituisce l'iteratore all'elemento se lo trova
+                return itr;                                                         // restituisce l'iteratore all'elemento se lo trova
             }
         }
-        throw ItemNotFound();                                       // se non trova l'elemento lancia un'eccezione
-}
+        throw ItemNotFound();                                                       // se non trova l'elemento lancia un'eccezione
+    }
 
 
-
-    void addToList(const Item &item) {                                              // aggiungo elemento alla lista
-        auto itr = search(item);
-        if (search(item) != list.end())
-            itr->second.setQuantity(itr->second.getQuantity() +item.getQuantity()); // se l'elemento è già presente nella lista aggiorno la quantità
-        else
-            list.insert({item.getCategory(), item});                                // altrimenti lo aggiungo
+    void const addToList(const Item &item) {
+        decltype(list.begin()) itr;                                                 // dichiaro un iteratore
+        std::string desc = item.getDescription();
+        try {
+            itr = search(item);                                                     // provo ad assegnare l'iteratore al risultato della ricerca
+            itr->second.setQuantity(itr->second.getQuantity() +
+                                    item.getQuantity());                            // se l'elemento è già presente nella lista aggiorno la quantità
+            std::cout << "Elemento gia presente, aggiorno la quantita di: " << desc << itr->second.getQuantity() << std::endl;
+        }
+        catch (const ItemNotFound &e) {
+            std::cerr << e.what() << ", aggiungo " << desc << " alla lista" << std::endl;
+            list.insert({desc,item});                                               // se l'elemento non è presente lo aggiungo
+        }
         notify();
     }
 
 
-    void decreaseQty(const Item &item) {
-        decltype(list.begin()) itr;                               //dichiaro un iteratore
+    void const decreaseQty(const Item &item) {
+        decltype(list.begin()) itr;                                                 // dichiaro un iteratore
+        std::string desc = item.getDescription();
+
         try {
-            itr = search(item);                                  //provo ad assegnare l'iteratore al risultato della ricerca
-            int oldQuantity = itr->second.getQuantity();         // se la ricerca fallisce search lancia eccezione
-            if (oldQuantity < item.getQuantity())                // se la quantità da rimuovere è maggiore di quella presente lancia eccezione
+            itr = search(item);                                                     // provo ad assegnare l'iteratore al risultato della ricerca
+            int newQty = itr->second.getQuantity() -
+                         item.getQuantity();                                        // se la ricerca fallisce search lancia eccezione
+            if (newQty < 0)                                                         // se la quantità da rimuovere è maggiore di quella presente lancia eccezione
                 throw NegativeQuantity();
-            else
-                int newQuantity = itr->second.getQuantity() - item.getQuantity(); // altrimenti aggiorno la quantità
+            else {
+                if (newQty == 0) {                                                  // se la quantità da rimuovere è uguale a quella presente rimuovo l'elemento
+                    list.erase(itr);
+                    std::cout << desc << ": non piu nella lista" << std::endl;
+                } else {
+                    itr->second.setQuantity(newQty);                                // altrimenti aggiorno la quantità
+                    std::cout << "Quantita aggiornata di " << desc << ": " << itr->second.getQuantity() << std::endl;
+                }
+            }
+            notify();
         }
 
         catch (const ItemNotFound &e) {
-            std::cerr << "Eccezione catturata " << e.what() << std::endl;
+            std::cerr << e.what() << std::endl;
         }
 
         catch (const NegativeQuantity &e) {
-            std::cerr << "Eccezione catturata" << e.what() << std::endl;
+            std::cerr << e.what() << std::endl;
         }
     }
 
-    void removeFromList(
-            const Item &item) {                               // cancello un elemento (se presente nella lista) se non voglio più comprarlo
-        auto itr = search(item);
+    void const removeFromList(const Item &item) {                                   // cancello un elemento (se presente nella lista) se non voglio più comprarlo
+        decltype(list.begin()) itr;                                                 // dichiaro un iteratore
         try {
-            if (search((item)) != list.end())
+            itr = search(item);                                                     // provo ad assegnare l'iteratore al risultato della ricerca
                 list.erase(itr);
-            else
-                throw std::runtime_error(
-                        "Elemento non presente nella lista"); // lancio un'eccezione se l'elemento non è presente nella lista
-            notify();
+                std::cout << itr->second.getDescription() << ": non piu nella lista" << std::endl;
+                notify();
+
         }
-        catch (const std::exception &e) {
+        catch (const ItemNotFound &e) {
             std::cerr << "Eccezione catturata " << e.what() << std::endl;
         }
     }
 
 
-    void buyItem(Item &item) {                                             //compro un elemento
-        auto itr = search(item);
+    void const buyItem(Item &item) {
+        decltype(list.begin()) itr;
+        std::string desc = item.getDescription();
+
         try {
-            if (search(item) != list.end()) {
-                int newQty = itr->second.getQuantity() - item.getQuantity();
-                if (newQty >
-                    0)                                               // se la  quantità ancora da comprare è > 0 la aggiorno
-                    itr->second.setQuantity(newQty);
-                else
-                    itr->second.setBought(
-                            true);                             // se la quantità è <= 0 setto l'elemento come comprato
-            } else
-                throw std::runtime_error(
-                        "Elemento non presente nella lista"); // se l'elemento non è presente nella lista lancio un'eccezione
+            itr = search(item);                                                    // provo ad assegnare l'iteratore al risultato della ricerca
+            int newQty = itr->second.getQuantity() - item.getQuantity();
+            if (newQty >0) {                                                       // se la  quantità ancora da comprare è > 0 la aggiorno
+                itr->second.setQuantity(newQty);
+                std::cout << "Quantita ancora da comprare di " << desc << ": " << itr->second.getQuantity() << std::endl;
+            }
+            else {
+                itr->second.setBought(true);                                       // se la quantità è <= 0 setto l'elemento come comprato
+                std::cout << desc << ": comprato " << std::endl;
+            }
             notify();
         }
-        catch (const std::exception &e) {
-            std::cerr << "Eccezione catturata " << e.what() << std::endl;
-        }
+
+            catch (const ItemNotFound &e) {
+                std::cerr << e.what() << std::endl;
+            }
+
     }
 
 
