@@ -57,8 +57,13 @@ public:
                                                  // altrimenti lancio eccezione
 
         auto itr = search(item);
-        if (search(item) != list.end())
-            itr->second.setQuantity (itr->second.getQuantity() - item.getQuantity());
+        if (search(item) != list.end()) {
+            int newQty = itr->second.getQuantity() - item.getQuantity();
+            if (newQty > 0)
+                itr->second.setQuantity(newQty);
+            else
+                list.erase(itr);
+        }
         else
             throw std::runtime_error("Elemento non presente nella lista");
         notify();
@@ -74,21 +79,25 @@ public:
    }
 
 
-   void buyItem(Item &item) {  // imposto bool a true se
-       notify();
+   void buyItem(Item &item) {  // imposto bool a true se la quantità da comprare è <= 0
+        auto itr = search(item);
+        if (search(item) != list.end()){
+
+        }
+
+
+
+
+
+
+
+
+
+
+
    }
 
-   /*void buyItem(const Item &item) {
-       for (auto l: list) {
-           if (l.second == item) {
-               l.second.setQuantity(l.second.getQuantity() - item.getQuantity());
-               if (l.second.getQuantity() <= 0)
-                   l.second.setBought(true);
-               notify();
 
-           }
-       }
-   }*/
 
     const std::multimap<std::string, Item> &getList() const {
         return list;
