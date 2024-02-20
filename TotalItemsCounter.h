@@ -1,5 +1,5 @@
 //
-// Created by matte on 27/11/2023.
+// Created by Matteo Postiferi on 27/11/2023.
 //
 
 #ifndef LISTASPESA_TOTALITEMSCOUNTER_H

@@ -1,5 +1,5 @@
 //
-// Created by matte on 24/11/2023.
+// Created by Matteo Postiferi on 24/11/2023.
 //
 
 #ifndef LISTASPESA_ITEM_H
@@ -10,8 +10,8 @@
 
 class Item {
 public:
-    Item(const std::string &description, const std::string &category, int quantity, bool bought = false) : description(
-            description), category(category), quantity(quantity), bought(bought) {}
+    Item(const std::string &description, const std::string &category, int quantity) : description(
+            description), category(category), quantity(quantity){}
 
     virtual ~Item() {}
 
@@ -58,7 +58,7 @@ private:
     std::string description;
     std::string category;
     int quantity;
-    bool bought;
+    bool bought {false};
 
 };
 
