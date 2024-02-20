@@ -11,6 +11,8 @@
 #include <list>
 #include "Item.h"
 #include "Subject.h"
+#include "ItemNotFound.h"
+#include "NegativeQuantity.h"
 #include <stdexcept>
 #include <iostream>
 
@@ -34,45 +36,45 @@ public:
         observerList.remove(o);
     }
 
-    auto search(const Item &item) {                              // ricerca di un elemento nella lista
+
+    auto search(const Item &item){                                  // ricerca di un elemento nella lista
+
         for (auto itr = list.begin(); itr != list.end(); itr++) {
             if (itr->second == item) {
-                return itr;                                     // restituisce l'iteratore all'elemento se lo trova
+                return itr;                                         // restituisce l'iteratore all'elemento se lo trova
             }
         }
-        return list.end();                                     // altrimenti restituisce list.end() (iteratore alla fine della lista)
+        throw ItemNotFound();                                       // se non trova l'elemento lancia un'eccezione
+}
 
-    }
 
-    void addToList(const Item &item) {                                                 // aggiungo elemento alla lista
+
+    void addToList(const Item &item) {                                              // aggiungo elemento alla lista
         auto itr = search(item);
         if (search(item) != list.end())
-            itr->second.setQuantity(itr->second.getQuantity() +
-                                    item.getQuantity()); // se l'elemento è già presente nella lista aggiorno la quantità
+            itr->second.setQuantity(itr->second.getQuantity() +item.getQuantity()); // se l'elemento è già presente nella lista aggiorno la quantità
         else
-            list.insert({item.getCategory(), item});                                  // altrimenti lo aggiungo
+            list.insert({item.getCategory(), item});                                // altrimenti lo aggiungo
         notify();
     }
 
-    void decreaseQty(
-            const Item &item) {                                       // l'oggetto passato mi dice di quale elemento e di quanto diminuire la quantità
-        auto itr = search(item);
+
+    void decreaseQty(const Item &item) {
+        decltype(list.begin()) itr;                               //dichiaro un iteratore
         try {
-            if (search(item) !=
-                list.end()) {                                  //controllo se l'elemento è presente nella lista
-                int newQty = itr->second.getQuantity() - item.getQuantity();
-                if (newQty >
-                    0)                                                //se l'elemento è nella lista e la quantità ancora da comprare è > 0 la aggiorno
-                    itr->second.setQuantity(newQty);
-                else
-                    list.erase(
-                            itr);                                           // quantità <= 0  cancello l'elemento dalla lista
-            } else
-                throw std::runtime_error(
-                        "Elemento non presente nella lista"); // se l'elemento non è presente nella lista lancio un'eccezione
-            notify();
+            itr = search(item);                                  //provo ad assegnare l'iteratore al risultato della ricerca
+            int oldQuantity = itr->second.getQuantity();         // se la ricerca fallisce search lancia eccezione
+            if (oldQuantity < item.getQuantity())                // se la quantità da rimuovere è maggiore di quella presente lancia eccezione
+                throw NegativeQuantity();
+            else
+                int newQuantity = itr->second.getQuantity() - item.getQuantity(); // altrimenti aggiorno la quantità
         }
-        catch (const std::exception &e) {
+
+        catch (const ItemNotFound &e) {
+            std::cerr << "Eccezione catturata " << e.what() << std::endl;
+        }
+
+        catch (const NegativeQuantity &e) {
             std::cerr << "Eccezione catturata" << e.what() << std::endl;
         }
     }
