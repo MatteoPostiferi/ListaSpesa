@@ -45,60 +45,57 @@ public:
 
     void addToList(const Item &item) {  // se l'elemento è gia presente si incrementa la quantità, altrimenti si aggiunge
         auto itr = search(item);
-        if(itr != list.end())
+        if (search(item) != list.end())
             itr->second.setQuantity (itr->second.getQuantity() + item.getQuantity());
         else
             list.insert({item.getCategory(), item});
         notify();
     }
 
-    void decreaseQty(const Item &item) { // diminuisco la quantità da comprare di un prodotto
-        bool found = false;              // se l'elemento si trova nella lista aggiorno la quantità da comprare
-        for (auto l: list) {             // altrimenti lancio eccezione
-            if (l.second == item) {
-                found = true;
-                l.second.setQuantity(l.second.getQuantity() - item.getQuantity());
-                // messaggio per stampare
-                break;
-            }
-        }
-        if (found == false)
+    void decreaseQty(const Item &item) {         // diminuisco la quantità che voglio comprare di un prodotto
+                                                 // se l'elemento si trova nella lista aggiorno la quantità da comprare
+                                                 // altrimenti lancio eccezione
+
+        auto itr = search(item);
+        if (search(item) != list.end())
+            itr->second.setQuantity (itr->second.getQuantity() - item.getQuantity());
+        else
             throw std::runtime_error("Elemento non presente nella lista");
-    }
+   }
 
-    void removeFromList(const Item &item) {  // cancello un elemento dalla lista se non voglio più comprarlo
-        bool found = false;
-        for (auto l: list) {
-            if (l.second == item) {
-                found = true;
-                list.erase(l.first);
-                notify();
-                break;
-            }
-        }
-        if (found == false)
-            throw std::runtime_error("Elemento non presente nella lista");
-    }
+   void removeFromList(const Item &item) {  // cancello un elemento dalla lista se non voglio più comprarlo
+       bool found = false;
+       for (auto l: list) {
+           if (l.second == item) {
+               found = true;
+               list.erase(l.first);
+               notify();
+               break;
+           }
+       }
+       if (found == false)
+           throw std::runtime_error("Elemento non presente nella lista");
+   }
 
 
-    void buyItem(Item &item) {  // imposto bool a true se
-        decreaseQty(item);
-        if (decreaseQty(item) <= 0)
-            item.setBought(true);
-        notify();
-    }
+   void buyItem(Item &item) {  // imposto bool a true se
+       decreaseQty(item);
+       if (decreaseQty(item) <= 0)
+           item.setBought(true);
+       notify();
+   }
 
-    /*void buyItem(const Item &item) {
-        for (auto l: list) {
-            if (l.second == item) {
-                l.second.setQuantity(l.second.getQuantity() - item.getQuantity());
-                if (l.second.getQuantity() <= 0)
-                    l.second.setBought(true);
-                notify();
+   /*void buyItem(const Item &item) {
+       for (auto l: list) {
+           if (l.second == item) {
+               l.second.setQuantity(l.second.getQuantity() - item.getQuantity());
+               if (l.second.getQuantity() <= 0)
+                   l.second.setBought(true);
+               notify();
 
-            }
-        }
-    }*/
+           }
+       }
+   }*/
 
     const std::multimap<std::string, Item> &getList() const {
         return list;
