@@ -20,7 +20,7 @@ public:
         subject->unregisterObserver(this);
     }
 
-    int countItems() {
+    int countItems() const {
         int count = 0;
         for (auto s: subject->getList()) {
             if (s.second.isBought() == false)
@@ -30,9 +30,10 @@ public:
     }
 
 
-    void update() override {
+    void update() const override {
         int count = countItems();
-        std::cout << "There are : " << count << " items left to buy in: " << subject->getListName() << std::endl;
+        std::cout << subject->getListName() << ": ci sono " << count << " articoli ancora da comprare" << std::endl << std::endl;
+
     }
 
 private:

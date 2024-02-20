@@ -10,8 +10,7 @@
 class ItemNotFound : public std::exception {
 public:
     const char *what() const noexcept override {
-        return "Elemento non presente nella lista";
-
+        return "Articolo non presente nella lista";
     };
 };
 

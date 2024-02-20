@@ -24,8 +24,7 @@ public:
 
     virtual ~ShoppingList() {}
 
-    void
-    notify() override {
+    void notify() override {
         for (auto o: observerList)
             o->update();
     }
@@ -39,7 +38,7 @@ public:
     }
 
 
-    auto search(const Item &item) {                                                 // ricerca di un elemento nella lista
+    auto search (const Item &item) {                                                // ricerca di un elemento nella lista
         for (auto itr = list.begin(); itr != list.end(); itr++) {
             if (itr->second == item) {
                 return itr;                                                         // restituisce l'iteratore all'elemento se lo trova
@@ -49,7 +48,7 @@ public:
     }
 
 
-    void const addToList(const Item &item) {
+    void addToList (const Item &item) {
         decltype(list.begin()) itr;                                                 // dichiaro un iteratore
         std::string desc = item.getDescription();
         try {
@@ -66,7 +65,7 @@ public:
     }
 
 
-    void const decreaseQty(const Item &item) {
+    void decreaseQty(const Item &item) {
         decltype(list.begin()) itr;                                                 // dichiaro un iteratore
         std::string desc = item.getDescription();
 
@@ -97,7 +96,7 @@ public:
         }
     }
 
-    void const removeFromList(const Item &item) {                                   // cancello un elemento (se presente nella lista) se non voglio più comprarlo
+    void removeFromList(const Item &item) {                                         // cancello un elemento (se presente nella lista) se non voglio più comprarlo
         decltype(list.begin()) itr;                                                 // dichiaro un iteratore
         try {
             itr = search(item);                                                     // provo ad assegnare l'iteratore al risultato della ricerca
@@ -112,7 +111,7 @@ public:
     }
 
 
-    void const buyItem(Item &item) {
+    void buyItem(Item &item) {
         decltype(list.begin()) itr;
         std::string desc = item.getDescription();
 

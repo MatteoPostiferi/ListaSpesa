@@ -20,12 +20,12 @@ public:
         subject->unregisterObserver(this);
     }
 
-    void update() override {
+    void update() const override{
         int count = 0;
         for (auto l: subject->getListGroup()) {
             count += itemsListCounter->countItems();
         }
-        std::cout << "There are : " << count << " items left to buy in all lists" << std::endl;
+        std::cout << "Ci sono : " << count << " articoli ancora da comprare in totale" << std::endl << std::endl;
     }
 
 private:

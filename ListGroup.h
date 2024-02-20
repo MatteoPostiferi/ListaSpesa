@@ -16,8 +16,8 @@ public:
     virtual ~ListGroup() {};
 
     void notify() override {
-        for (auto list: listGroup) {
-            list.notify();
+        for (auto l: listGroup) {
+            l.notify();
         }
     }
 
