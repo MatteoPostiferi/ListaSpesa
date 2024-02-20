@@ -61,6 +61,7 @@ public:
             itr->second.setQuantity (itr->second.getQuantity() - item.getQuantity());
         else
             throw std::runtime_error("Elemento non presente nella lista");
+        notify();
    }
 
    void removeFromList(const Item &item) {      // cancello un elemento dalla lista se non voglio più comprarlo
@@ -69,13 +70,11 @@ public:
             list.erase(itr);
         else
            throw std::runtime_error("Elemento non presente nella lista");
+        notify();
    }
 
 
    void buyItem(Item &item) {  // imposto bool a true se
-       decreaseQty(item);
-       if (decreaseQty(item) <= 0)
-           item.setBought(true);
        notify();
    }
 
