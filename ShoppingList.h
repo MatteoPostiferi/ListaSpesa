@@ -63,17 +63,11 @@ public:
             throw std::runtime_error("Elemento non presente nella lista");
    }
 
-   void removeFromList(const Item &item) {  // cancello un elemento dalla lista se non voglio più comprarlo
-       bool found = false;
-       for (auto l: list) {
-           if (l.second == item) {
-               found = true;
-               list.erase(l.first);
-               notify();
-               break;
-           }
-       }
-       if (found == false)
+   void removeFromList(const Item &item) {      // cancello un elemento dalla lista se non voglio più comprarlo
+        auto itr = search(item);
+        if (search((item)) != list.end())
+            list.erase(itr);
+        else
            throw std::runtime_error("Elemento non presente nella lista");
    }
 
