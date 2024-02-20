@@ -29,11 +29,11 @@ public:
         observerList.remove(o);
     }
 
-    void addList(const ShoppingList &l) {
+    void const addList(const ShoppingList &l) {
         listGroup.push_back(l);
     }
 
-    void removeList(const ShoppingList &l) {
+    void const removeList(const ShoppingList &l) {
         for (auto itr = listGroup.begin(); itr != listGroup.end(); itr++) {
             if (l.getListName() == itr->getListName())
                 listGroup.erase(itr);
