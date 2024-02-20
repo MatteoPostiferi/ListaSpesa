@@ -9,7 +9,6 @@
 #include <string>
 #include <map>
 #include <list>
-#include <algorithm>
 #include "Item.h"
 #include "Subject.h"
 #include <stdexcept>
@@ -21,7 +20,7 @@ public:
 
     virtual ~ShoppingList() {}
 
-    void notify() override {       //  ogni cambiamento del subject viene segnalato all'observer
+    void notify() override {                                      // ogni cambiamento del subject viene segnalato all'observer
         for (auto o: observerList)
             o->update();
     }
@@ -34,67 +33,75 @@ public:
         observerList.remove(o);
     }
 
-    auto search(const Item &item) {
+    auto search(const Item &item) {                              // ricerca di un elemento nella lista
         for (auto itr = list.begin(); itr != list.end(); itr++) {
             if (itr->second == item) {
-                return itr;
+                return itr;                                     // restituisce l'iteratore all'elemento se lo trova
             }
         }
-        return list.end();
+        return list.end();                                     // altrimenti restituisce list.end() (iteratore alla fine della lista)
+
     }
 
-    void addToList(const Item &item) {  // se l'elemento è gia presente si incrementa la quantità, altrimenti si aggiunge
+    void addToList(const Item &item) {                                                 // aggiungo elemento alla lista
         auto itr = search(item);
         if (search(item) != list.end())
-            itr->second.setQuantity (itr->second.getQuantity() + item.getQuantity());
+            itr->second.setQuantity (itr->second.getQuantity() + item.getQuantity()); // se l'elemento è già presente nella lista aggiorno la quantità
         else
-            list.insert({item.getCategory(), item});
+            list.insert({item.getCategory(), item});                                  // altrimenti lo aggiungo
         notify();
     }
 
-    void decreaseQty(const Item &item) {         // diminuisco la quantità che voglio comprare di un prodotto
-                                                 // se l'elemento si trova nella lista aggiorno la quantità da comprare
-                                                 // altrimenti lancio eccezione
-
+    void decreaseQty(const Item &item) {                                       // l'oggetto passato mi dice di quale elemento e di quanto diminuire la quantità
         auto itr = search(item);
-        if (search(item) != list.end()) {
+        try {
+            if (search(item) != list.end()) {                                  //controllo se l'elemento è presente nella lista
+                int newQty = itr->second.getQuantity() - item.getQuantity();
+                if (newQty > 0)                                                //se l'elemento è nella lista e la quantità ancora da comprare è > 0 la aggiorno
+                    itr->second.setQuantity(newQty);
+                else
+                    list.erase(itr);                                           // quantità <= 0  cancello l'elemento dalla lista
+            } else
+                throw std::runtime_error("Elemento non presente nella lista"); // se l'elemento non è presente nella lista lancio un'eccezione
+            notify();
+        }
+        catch (const std::exception& e) {
+        std::cerr << "Eccezione catturata" << e.what() << std::endl;
+            }
+   }
+
+   void removeFromList(const Item &item) {                               // cancello un elemento (se presente nella lista) se non voglio più comprarlo
+        auto itr = search(item);
+        try {
+            if (search((item)) != list.end())
+                list.erase(itr);
+        else
+           throw std::runtime_error("Elemento non presente nella lista"); // lancio un'eccezione se l'elemento non è presente nella lista
+        notify();
+        }
+        catch (const std::exception& e){
+            std::cerr << "Eccezione catturata " << e.what() << std::endl;
+        }
+   }
+
+
+   void buyItem(Item &item) {                                             //compro un elemento
+        auto itr = search(item);
+        try{
+        if (search(item) != list.end()){
             int newQty = itr->second.getQuantity() - item.getQuantity();
-            if (newQty > 0)
+            if (newQty > 0)                                               // se la  quantità ancora da comprare è > 0 la aggiorno
                 itr->second.setQuantity(newQty);
             else
-                list.erase(itr);
+                itr->second.setBought(true);                             // se la quantità è <= 0 setto l'elemento come comprato
         }
         else
-            throw std::runtime_error("Elemento non presente nella lista");
+            throw std::runtime_error("Elemento non presente nella lista"); // se l'elemento non è presente nella lista lancio un'eccezione
         notify();
-   }
-
-   void removeFromList(const Item &item) {      // cancello un elemento dalla lista se non voglio più comprarlo
-        auto itr = search(item);
-        if (search((item)) != list.end())
-            list.erase(itr);
-        else
-           throw std::runtime_error("Elemento non presente nella lista");
-        notify();
-   }
-
-
-   void buyItem(Item &item) {  // imposto bool a true se la quantità da comprare è <= 0
-        auto itr = search(item);
-        if (search(item) != list.end()){
-
         }
-
-
-
-
-
-
-
-
-
-
-
+        catch (const std::exception& e){
+            std::cerr << "Eccezione catturata " << e.what() << std::endl;
+        }
    }
 
 
