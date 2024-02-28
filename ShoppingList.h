@@ -134,13 +134,18 @@ public:
         try {
             itr = search(item);                                                    // provo ad assegnare l'iteratore al risultato della ricerca
             int newQty = itr->second.getQuantity() - item.getQuantity();
-            if (newQty >0) {                                                       // se la  quantità ancora da comprare è > 0 la aggiorno
+            if (newQty > 0) {                                                       // se la  quantità ancora da comprare è > 0 la aggiorno
                 itr->second.setQuantity(newQty);
                 std::cout << "Quantita ancora da comprare di " << desc << ": " << itr->second.getQuantity() << std::endl;
             }
             else {
-                itr->second.setBought(true);                                       // se la quantità è <= 0 setto l'elemento come comprato
-                std::cout << desc << ": comprato " << std::endl;
+                if( newQty == 0) {
+                    itr->second.setBought(
+                            true);                                                 // se la quantità è <= 0 setto l'elemento come comprato
+                    std::cout << desc << ": comprato " << std::endl;
+                }
+                else
+                    throw NegativeQuantity();                                      // se la quantità da comprare è < 0 lancia eccezione
             }
             notify();
         }

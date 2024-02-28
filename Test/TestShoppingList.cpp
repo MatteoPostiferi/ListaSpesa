@@ -91,6 +91,7 @@ TEST(ShoppingListTest, buyItem) {
     Item item2("Pane", "Carboidrati", 4);
     Item item3("Uova", "Proteine", 4);
     Item item4("Pizza", "Carboidrati", 4);
+    Item item5("Pane", "Carboidrati", 5);
     ShoppingList shoppingList("Generic List");
 
     shoppingList.addToList(item);
@@ -103,9 +104,15 @@ TEST(ShoppingListTest, buyItem) {
     EXPECT_TRUE(shoppingList.getList().begin()->second.isBought());     //decremento la quantità di un elemento fino a 0 e
                                                                         // controllo che l'elemento venga segnato come comprato
 
-    EXPECT_THROW(shoppingList.buyItem(item4), ItemNotFound);            //provo a comprare un elemento non presente e lancio eccezione
+    EXPECT_THROW(shoppingList.buyItem(item4), ItemNotFound);            //controllo che venga lanciata eccezione se provo a comprare
+                                                                        // un elemento non presente nella lista
+
+    EXPECT_THROW(shoppingList.buyItem(item5), NegativeQuantity);        // controllo che venga lanciata eccezione se provo a comprare
+                                                                        // un elemento fino a un valore negativo
 
     std::cout << "Test ShoppingList buyItem Done" << std::endl;
 }
+
+
 
 
