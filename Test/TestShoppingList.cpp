@@ -5,10 +5,10 @@
 #include "../ShoppingList.h"
 #include "../Item.h"
 
-TEST(ShoppingListTest, Constructor) {
+TEST(ShoppingListTest, Constructor) {                                    // provo a creare una lista
     std::cout << "Test ShoppingList Constructor" << std::endl;
-    ShoppingList shoppingList("List1");
-    EXPECT_EQ(shoppingList.getListName(), "List1");
+    ShoppingList shoppingList("Generic List");
+    EXPECT_EQ(shoppingList.getListName(), "Generic List");               // verifico il nome della lista
     std::cout << "Test ShoppingList Constructor Done" << std::endl;
 
 }
@@ -21,11 +21,13 @@ TEST(ShoppingListTest, AddToList) {
     EXPECT_EQ(shoppingList.getList().size(), 0);                         //controllo che la lista sia vuota
 
     shoppingList.addToList(item);
-    shoppingList.addToList(item2);
-    EXPECT_EQ(shoppingList.getList().size(), 2);                         //aggiungo elementi non presenti
+    shoppingList.addToList(item2);                                       // aggiungo elementi non presenti e controllo che
+    EXPECT_EQ(shoppingList.getList().size(), 2);                         //vengano inseriti come nuovi elementi
 
     shoppingList.addToList(item);
     EXPECT_EQ(shoppingList.getList().size(), 2);                         //aggiungo elemento già presente, dunque incremento la quantità
+                                                                         //degli elementi già presenti
+
     EXPECT_EQ(shoppingList.getList().begin()->second.getQuantity(), 16); //controllo che la quantità sia stata incrementata
 
     std::cout << "Test ShoppingList AddItem Done" << std::endl;
@@ -42,13 +44,13 @@ TEST(ShoppingListTest, RemoveFromList) {
     shoppingList.addToList(item2);
     EXPECT_EQ(shoppingList.getList().size(), 2);                        //controllo che la lista sia stata riempita
 
-    shoppingList.removeFromList(item);
-    EXPECT_EQ(shoppingList.getList().size(), 1);                        //rimuovo un elemento
+    shoppingList.removeFromList(item);                                  //rimuovo un elemento presente nella lista
+    EXPECT_EQ(shoppingList.getList().size(), 1);                        // verifico che la lista sia stata ridotta di dimensione
     shoppingList.removeFromList(item2);
-    EXPECT_EQ(shoppingList.getList().size(), 0);                        //rimuovo l'ultimo elemento
-    std::cout << "Test ShoppingList RemoveItem Done" << std::endl;
+    EXPECT_EQ(shoppingList.getList().size(), 0);                        //rimuovo l'ultimo elemento e controllo che la lista sia vuota
 
-    EXPECT_THROW(shoppingList.removeFromList(item3), ItemNotFound);     //rimuovo un elemento non presente
+    EXPECT_THROW(shoppingList.removeFromList(item3), ItemNotFound);     // controllo che venga lanciata eccezione se provo a rimuovere
+                                                                        // un elemento non presente nella lista
 
     std::cout << "Test ShoppingList RemoveItem Done" << std::endl;
 }
@@ -59,6 +61,7 @@ TEST(ShoppingListTest, decreaseQuantity) {
     Item item2("Pane", "Carboidrati", 4);
     Item item3("Uova", "Proteine", 4);
     Item item4("Pizza", "Carboidrati", 4);
+    Item item5("Pane", "Carboidrati", 5);
     ShoppingList shoppingList("Generic List");
 
     shoppingList.addToList(item);
@@ -73,8 +76,11 @@ TEST(ShoppingListTest, decreaseQuantity) {
     EXPECT_EQ(shoppingList.getList().size(), 1);                        //decremento la quantità di un elemento fino a 0 e
                                                                         // controllo che l'elemento venga rimosso
 
-    EXPECT_THROW(shoppingList.decreaseQty(item4), NegativeQuantity);    //provo a diminuire la quantità di un elemento non presente e
-                                                                        // lancio eccezione
+    EXPECT_THROW(shoppingList.decreaseQty(item4), ItemNotFound);        //controllo che venga lanciata eccezione se provo a diminuire
+                                                                        // la quantità di un elemento non presente nella lista
+
+    EXPECT_THROW(shoppingList.decreaseQty(item5), NegativeQuantity);    // controllo che venga lanciata eccezione se provo a diminuire
+                                                                        // la quantità di un elemento fino a un valore negativo
 
     std::cout << "Test ShoppingList decreaseQuantity Done" << std::endl;
 
