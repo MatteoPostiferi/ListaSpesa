@@ -28,5 +28,27 @@ TEST(ShoppingListTest, AddToList) {
     EXPECT_EQ(shoppingList.getList().size(), 2);                         //aggiungo elemento già presente, dunque incremento la quantità
     EXPECT_EQ(shoppingList.getList().begin()->second.getQuantity(), 16); //controllo che la quantità sia stata incrementata
 
+    std::cout << "Test ShoppingList AddItem Done" << std::endl;
 }
-C
+
+TEST(ShoppingListTest, RemoveFromList) {
+    std::cout << "Test ShoppingList RemoveItem" << std::endl;
+    Item item("Description", "Category", 8);
+    Item item2("Description2", "Category2", 4);
+    Item item3("Description3", "Category3", 4);
+    ShoppingList shoppingList("List1");
+
+    shoppingList.addToList(item);
+    shoppingList.addToList(item2);
+    EXPECT_EQ(shoppingList.getList().size(), 2);                        //controllo che la lista sia stata riempita
+
+    shoppingList.removeFromList(item);
+    EXPECT_EQ(shoppingList.getList().size(), 1);                        //rimuovo un elemento
+    shoppingList.removeFromList(item2);
+    EXPECT_EQ(shoppingList.getList().size(), 0);                        //rimuovo l'ultimo elemento
+    std::cout << "Test ShoppingList RemoveItem Done" << std::endl;
+
+    EXPECT_THROW(shoppingList.removeFromList(item3), ItemNotFound);     //rimuovo un elemento non presente
+
+    std::cout << "Test ShoppingList RemoveItem Done" << std::endl;
+}
