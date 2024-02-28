@@ -89,7 +89,17 @@ TEST(ShoppingListTest, buyItem) {
 
     shoppingList.addToList(item);
     shoppingList.addToList(item2);
+    shoppingList.buyItem(item3);
+    EXPECT_EQ(shoppingList.getList().begin()->second.getQuantity(), 4); //decremento la quantità di un elemento
+    EXPECT_FALSE(shoppingList.getList().begin()->second.isBought());    //controllo che l'elemento sia ancora da finire di comprare
 
+    shoppingList.buyItem(item3);
+    EXPECT_TRUE(shoppingList.getList().begin()->second.isBought());     //decremento la quantità di un elemento fino a 0 e
+                                                                        // controllo che l'elemento venga segnato come comprato
+
+    EXPECT_THROW(shoppingList.buyItem(item4), ItemNotFound);            //provo a comprare un elemento non presente e lancio eccezione
+
+    std::cout << "Test ShoppingList buyItem Done" << std::endl;
 }
 
 
