@@ -122,7 +122,7 @@ public:
 
         }
         catch (const ItemNotFound &e) {
-            std::cerr << "Eccezione catturata " << e.what() << std::endl;
+            std::cerr  << e.what() << std::endl;
         }
     }
 

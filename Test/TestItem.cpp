@@ -17,8 +17,7 @@ TEST (ItemTest, Constructor) {                               // provo a creare u
     EXPECT_EQ(item.getQuantity(), 2);
     EXPECT_FALSE(item.isBought());
 
-    Item item2("Petto di pollo", "Carne", -4);
-    EXPECT_THROW(item2.getQuantity(), std::invalid_argument); // controllo che il costruttore lanci un'eccezione se la quantità è negativa
+    EXPECT_THROW(Item item2("Petto di pollo", "Carne", -4), std::invalid_argument); // controllo che il costruttore lanci un'eccezione se la quantità è negativa
 
     std::cout << "Test Item Constructor" << std::endl;
 
