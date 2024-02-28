@@ -16,7 +16,7 @@ TEST(ShoppingListTest, AddToList) {
     std::cout << "Test ShoppingList AddItem" << std::endl;
     Item item("Description", "Category", 8);
     Item item2("Description2", "Category2", 4);
-    ShoppingList shoppingList("List1");
+    ShoppingList shoppingList("Generic List");
 
     EXPECT_EQ(shoppingList.getList().size(), 0);                         //controllo che la lista sia vuota
 
@@ -36,7 +36,7 @@ TEST(ShoppingListTest, RemoveFromList) {
     Item item("Description", "Category", 8);
     Item item2("Description2", "Category2", 4);
     Item item3("Description3", "Category3", 4);
-    ShoppingList shoppingList("List1");
+    ShoppingList shoppingList(" Generic List");
 
     shoppingList.addToList(item);
     shoppingList.addToList(item2);
@@ -52,3 +52,44 @@ TEST(ShoppingListTest, RemoveFromList) {
 
     std::cout << "Test ShoppingList RemoveItem Done" << std::endl;
 }
+
+TEST(ShoppingListTest, decreaseQuantity) {
+    std::cout << "Test ShoppingList decreaseQuantity" << std::endl;
+    Item item("Uova", "Proteine", 8);
+    Item item2("Pane", "Carboidrati", 4);
+    Item item3("Uova", "Proteine", 4);
+    Item item4("Pizza", "Carboidrati", 4);
+    ShoppingList shoppingList("Generic List");
+
+    shoppingList.addToList(item);
+    shoppingList.addToList(item2);
+    EXPECT_EQ(shoppingList.getList().size(), 2);                        //controllo che la lista sia stata riempita
+
+    shoppingList.decreaseQty(item3);
+    EXPECT_EQ(shoppingList.getList().begin()->second.getQuantity(), 4); //decremento la quantità di un elemento
+    EXPECT_EQ(shoppingList.getList().size(), 2);                        //controllo che la lista mantenga la stessa dimensione
+
+    shoppingList.decreaseQty(item3);
+    EXPECT_EQ(shoppingList.getList().size(), 1);                        //decremento la quantità di un elemento fino a 0 e
+                                                                        // controllo che l'elemento venga rimosso
+
+    EXPECT_THROW(shoppingList.decreaseQty(item4), NegativeQuantity);    //provo a diminuire la quantità di un elemento non presente e
+                                                                        // lancio eccezione
+
+    std::cout << "Test ShoppingList decreaseQuantity Done" << std::endl;
+
+}
+TEST(ShoppingListTest, buyItem) {
+    std::cout << "Test ShoppingList buyItem" << std::endl;
+    Item item("Uova", "Proteine", 8);
+    Item item2("Pane", "Carboidrati", 4);
+    Item item3("Uova", "Proteine", 4);
+    Item item4("Pizza", "Carboidrati", 4);
+    ShoppingList shoppingList("Generic List");
+
+    shoppingList.addToList(item);
+    shoppingList.addToList(item2);
+
+}
+
+
