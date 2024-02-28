@@ -49,7 +49,7 @@ public:
     }
 
 
-    void addToList (const Item &item) {
+  /*  void addToList (const Item &item) {
         decltype(list.begin()) itr;                                                 // dichiaro un iteratore
         std::string desc = item.getDescription();
         try {
@@ -64,6 +64,23 @@ public:
         }
         notify();
     }
+    */
+  void addToList(const Item &item){
+      bool found = false;
+      auto itr = list.begin();
+      while(found == false && itr != list.end()){
+          if (itr->second == item){
+              itr->second.setQuantity(itr->second.getQuantity() + item.getQuantity()); // se l'elemento è già presente nella lista aggiorno la quantità
+                found = true;
+            }
+          itr++;
+      }
+        if (found == false){
+            list.insert({item.getDescription(), item});                             // altrimenti lo aggiungo
+        }
+
+
+  }
 
 
     void decreaseQty(const Item &item) {
