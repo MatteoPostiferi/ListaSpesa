@@ -78,8 +78,6 @@ public:
         if (found == false){
             list.insert({item.getDescription(), item});                             // altrimenti lo aggiungo
         }
-
-
   }
 
 
