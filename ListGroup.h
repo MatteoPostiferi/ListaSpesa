@@ -11,7 +11,9 @@
 
 class ListGroup : Subject {
 public:
-    explicit ListGroup(const std::string &listGroupName) : listGroupName(listGroupName) {}
+    explicit ListGroup(const std::string &listGroupName) : listGroupName(listGroupName) {
+        notify();
+    }
 
     virtual ~ListGroup() {};
 
@@ -31,6 +33,7 @@ public:
 
     void const addList(const ShoppingList &l) {
         listGroup.push_back(l);
+        notify();
     }
 
     void const removeList(const ShoppingList &l) {
@@ -38,6 +41,7 @@ public:
             if (l.getListName() == itr->getListName())
                 listGroup.erase(itr);
         }
+        notify();
     }
 
     const std::list<ShoppingList> &getListGroup() const {

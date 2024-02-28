@@ -20,7 +20,8 @@
 
 class ShoppingList : public Subject {
 public:
-    explicit ShoppingList(const std::string &listName) : listName(listName) {}
+    explicit ShoppingList(const std::string &listName) : listName(listName) {
+    }
 
     virtual ~ShoppingList() {}
 

@@ -4,7 +4,7 @@
 #include "../Item.h"
 #include <gtest/gtest.h>
 
-TEST (Item, Constructor) {
+TEST (ItemTest, Constructor) {
     std::cout << "Test Item Constructor" << std::endl;
     std::string description = "Petto di pollo";
     std::string category = "Carne";
@@ -16,5 +16,7 @@ TEST (Item, Constructor) {
     EXPECT_EQ(item.getCategory(), "Carne");
     EXPECT_EQ(item.getQuantity(), 2);
     EXPECT_FALSE(item.isBought());
+
+    std::cout << "Test Item Constructor" << std::endl;
 
 }
