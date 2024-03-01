@@ -13,9 +13,9 @@ public:
     Item(const std::string &description, const std::string &category, int quantity) : description(
             description), category(category), quantity(quantity){
         if (quantity < 0)
-            throw std::invalid_argument("Quantity must be positive");
+            throw std::invalid_argument("Quantita deve essere positiva");
     }
-
+Item(){}
     virtual ~Item() {}
 
     const std::string &getDescription() const {

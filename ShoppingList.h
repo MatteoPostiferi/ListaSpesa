@@ -15,6 +15,7 @@
 #include "NegativeQuantity.h"
 #include <stdexcept>
 #include <iostream>
+#include <algorithm>
 
 
 
@@ -39,7 +40,7 @@ public:
     }
 
 
-    auto search (const Item &item) {                                                // ricerca di un elemento nella lista
+    auto search (const Item item) {                                                // ricerca di un elemento nella lista
         for (auto itr = list.begin(); itr != list.end(); itr++) {
             if (itr->second == item) {
                 return itr;                                                         // restituisce l'iteratore all'elemento se lo trova
@@ -64,7 +65,7 @@ public:
         }
         notify();
     }
-    */
+
   void addToList(const Item &item){
       bool found = false;
       auto itr = list.begin();
@@ -81,19 +82,29 @@ public:
   }
 
 
+   */
+  void addToList(const Item &item) {
+      auto key = item.getDescription();
+      if (list.find(key) != list.end()) {                                        // cerca un elemento tramite la sua chiave
+          list[key].setQuantity(list[key].getQuantity() + item.getQuantity());   // se esiste incremento la quantità
+      }
+      list.insert({item.getDescription(), item});                                // altrimenti lo aggiungo
+  }
+
+
     void decreaseQty(const Item &item) {
         decltype(list.begin()) itr;                                                 // dichiaro un iteratore
         std::string desc = item.getDescription();
 
         try {
             itr = search(item);                                                     // provo ad assegnare l'iteratore al risultato della ricerca
-            int newQty = itr->second.getQuantity() -
-                         item.getQuantity();                                        // se la ricerca fallisce search lancia eccezione
+            int newQty = (itr->second.getQuantity() -
+                         item.getQuantity());                                        // se la ricerca fallisce search lancia eccezione ItemNotFound
             if (newQty < 0)                                                         // se la quantità da rimuovere è maggiore di quella presente lancia eccezione
-                throw NegativeQuantity();
+                throw std::runtime_error("Quantita negativa");
             else {
                 if (newQty == 0) {                                                  // se la quantità da rimuovere è uguale a quella presente rimuovo l'elemento
-                    list.erase(itr);
+                    list.erase(itr->first);
                     std::cout << desc << ": non piu nella lista" << std::endl;
                 } else {
                     itr->second.setQuantity(newQty);                                // altrimenti aggiorno la quantità
@@ -140,24 +151,23 @@ public:
             }
             else {
                 if( newQty == 0) {
-                    itr->second.setBought(
-                            true);                                                 // se la quantità è <= 0 setto l'elemento come comprato
+                    itr->second.setBought(true);                                                 // se la quantità è <= 0 setto l'elemento come comprato
                     std::cout << desc << ": comprato " << std::endl;
                 }
                 else
-                    throw NegativeQuantity();                                      // se la quantità da comprare è < 0 lancia eccezione
+                    throw std::runtime_error("Quantità negativa");                                      // se la quantità da comprare è < 0 lancia eccezione
             }
             notify();
         }
 
             catch (const ItemNotFound &e) {
-                std::cerr << e.what() << std::endl;
+               std::cerr << e.what() << std::endl;
             }
 
     }
 
 
-    const std::multimap<std::string, Item> &getList() const {
+    const std::map<std::string, Item> &getList() const {
         return list;
     }
 
@@ -168,7 +178,7 @@ public:
 
 private:
     std::string listName;
-    std::multimap<std::string, Item> list;
+    std::map<std::string, Item> list;
     std::list<Observer *> observerList;;
 };
 
