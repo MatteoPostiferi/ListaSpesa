@@ -6,7 +6,6 @@
 #include "TotalItemsCounter.h"
 #include "Subject.h"
 #include "Observer.h"
-#include "NegativeQuantity.h"
 
 int main() {
     std::cout << "Hello, World!" << std::endl;

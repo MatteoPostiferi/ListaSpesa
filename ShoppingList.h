@@ -13,16 +13,12 @@
 #include "Subject.h"
 #include "ItemNotFound.h"
 #include "NegativeQuantity.h"
-#include <stdexcept>
 #include <iostream>
-#include <algorithm>
-
 
 
 class ShoppingList : public Subject {
 public:
-    explicit ShoppingList(const std::string &listName) : listName(listName) {
-    }
+    explicit ShoppingList(const std::string &listName) : listName(listName) {}
 
     virtual ~ShoppingList() {}
 
@@ -39,134 +35,6 @@ public:
         observerList.remove(o);
     }
 
-
-    auto search (const Item item) {                                                // ricerca di un elemento nella lista
-        for (auto itr = list.begin(); itr != list.end(); itr++) {
-            if (itr->second == item) {
-                return itr;                                                         // restituisce l'iteratore all'elemento se lo trova
-            }
-        }
-        throw ItemNotFound();                                                       // se non trova l'elemento lancia un'eccezione
-    }
-
-
-  /*  void addToList (const Item &item) {
-        decltype(list.begin()) itr;                                                 // dichiaro un iteratore
-        std::string desc = item.getDescription();
-        try {
-            itr = search(item);                                                     // provo ad assegnare l'iteratore al risultato della ricerca
-            itr->second.setQuantity(itr->second.getQuantity() +
-                                    item.getQuantity());                            // se l'elemento è già presente nella lista aggiorno la quantità
-            std::cout << "Elemento gia presente, aggiorno la quantita di: " << desc << itr->second.getQuantity() << std::endl;
-        }
-        catch (const ItemNotFound &e) {
-            std::cerr << e.what() << ", aggiungo " << desc << " alla lista" << std::endl;
-            list.insert({desc,item});                                               // se l'elemento non è presente lo aggiungo
-        }
-        notify();
-    }
-
-  void addToList(const Item &item){
-      bool found = false;
-      auto itr = list.begin();
-      while(found == false && itr != list.end()){
-          if (itr->second == item){
-              itr->second.setQuantity(itr->second.getQuantity() + item.getQuantity()); // se l'elemento è già presente nella lista aggiorno la quantità
-                found = true;
-            }
-          itr++;
-      }
-        if (found == false){
-            list.insert({item.getDescription(), item});                             // altrimenti lo aggiungo
-        }
-  }
-
-
-   */
-  void addToList(const Item &item) {
-      auto key = item.getDescription();
-      if (list.find(key) != list.end()) {                                        // cerca un elemento tramite la sua chiave
-          list[key].setQuantity(list[key].getQuantity() + item.getQuantity());   // se esiste incremento la quantità
-      }
-      list.insert({item.getDescription(), item});                                // altrimenti lo aggiungo
-  }
-
-
-    void decreaseQty(const Item &item) {
-        decltype(list.begin()) itr;                                                 // dichiaro un iteratore
-        std::string desc = item.getDescription();
-
-        try {
-            itr = search(item);                                                     // provo ad assegnare l'iteratore al risultato della ricerca
-            int newQty = (itr->second.getQuantity() -
-                         item.getQuantity());                                        // se la ricerca fallisce search lancia eccezione ItemNotFound
-            if (newQty < 0)                                                         // se la quantità da rimuovere è maggiore di quella presente lancia eccezione
-                throw std::runtime_error("Quantita negativa");
-            else {
-                if (newQty == 0) {                                                  // se la quantità da rimuovere è uguale a quella presente rimuovo l'elemento
-                    list.erase(itr->first);
-                    std::cout << desc << ": non piu nella lista" << std::endl;
-                } else {
-                    itr->second.setQuantity(newQty);                                // altrimenti aggiorno la quantità
-                    std::cout << "Quantita aggiornata di " << desc << ": " << itr->second.getQuantity() << std::endl;
-                }
-            }
-            notify();
-        }
-
-        catch (const ItemNotFound &e) {
-            std::cerr << e.what() << std::endl;
-        }
-
-        catch (const NegativeQuantity &e) {
-            std::cerr << e.what() << std::endl;
-        }
-    }
-
-    void removeFromList(const Item &item) {                                         // cancello un elemento (se presente nella lista) se non voglio più comprarlo
-        decltype(list.begin()) itr;                                                 // dichiaro un iteratore
-        try {
-            itr = search(item);                                                     // provo ad assegnare l'iteratore al risultato della ricerca
-                list.erase(itr);
-                std::cout << itr->second.getDescription() << ": non piu nella lista" << std::endl;
-                notify();
-
-        }
-        catch (const ItemNotFound &e) {
-            std::cerr  << e.what() << std::endl;
-        }
-    }
-
-
-    void buyItem(Item &item) {
-        decltype(list.begin()) itr;
-        std::string desc = item.getDescription();
-
-        try {
-            itr = search(item);                                                    // provo ad assegnare l'iteratore al risultato della ricerca
-            int newQty = itr->second.getQuantity() - item.getQuantity();
-            if (newQty > 0) {                                                       // se la  quantità ancora da comprare è > 0 la aggiorno
-                itr->second.setQuantity(newQty);
-                std::cout << "Quantita ancora da comprare di " << desc << ": " << itr->second.getQuantity() << std::endl;
-            }
-            else {
-                if( newQty == 0) {
-                    itr->second.setBought(true);                                                 // se la quantità è <= 0 setto l'elemento come comprato
-                    std::cout << desc << ": comprato " << std::endl;
-                }
-                else
-                    throw std::runtime_error("Quantità negativa");                                      // se la quantità da comprare è < 0 lancia eccezione
-            }
-            notify();
-        }
-
-            catch (const ItemNotFound &e) {
-               std::cerr << e.what() << std::endl;
-            }
-
-    }
-
-
     const std::map<std::string, Item> &getList() const {
         return list;
     }
@@ -175,11 +43,24 @@ public:
         return listName;
     }
 
+    auto find(const Item &item);                  // chiamato da altri metodi per seguire il principio DRY
+
+    auto searchItem(const std::string &descr);    // cercare un oggetto tramite la sua chiave (nome)
+
+    void addToList(const Item &item);             // aggiungere un elemento alla lista
+
+    void decreaseQty(const Item &item);           // decrementare la quantità di un elemento, se vogliamo comprarne meno di quanto già scritto
+
+    void removeFromList(const Item &item);        // cancellare un elemento se non vogliamo più comprarlo
+
+    void buyItem(Item &item);                     // comprare un elemento
+
 
 private:
     std::string listName;
-    std::map<std::string, Item> list;
-    std::list<Observer *> observerList;;
+    std::map<std::string, Item> list;    // A ogni stringa, che rappresenta il nome dell'oggetto, associo l'oggetto in questione
+    std::list<Observer *> observerList;
+
 };
 
 

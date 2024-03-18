@@ -6,14 +6,15 @@
 #define LISTASPESA_ITEM_H
 
 #include <string>
-#include <stdexcept>
+#include "ItemNotFound.h"
+#include "NegativeQuantity.h"
 
 class Item {
 public:
     Item(const std::string &description, const std::string &category, int quantity) : description(
             description), category(category), quantity(quantity){
         if (quantity < 0)
-            throw std::invalid_argument("Quantita deve essere positiva");
+            throw NegativeQuantity();
     }
 Item(){}
     virtual ~Item() {}

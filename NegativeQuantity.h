@@ -1,5 +1,5 @@
 //
-// Created by Matteo Postiferi on 20/02/2024.
+// Created by matte on 02/03/2024.
 //
 
 #ifndef LISTASPESA_NEGATIVEQUANTITY_H

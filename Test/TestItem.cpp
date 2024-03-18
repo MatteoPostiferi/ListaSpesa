@@ -1,24 +1,35 @@
-//
-// Created by matte on 23/02/2024.
-//
 #include "../Item.h"
 #include <gtest/gtest.h>
 
-TEST (ItemTest, Constructor) {                               // provo a creare un oggetto
-    std::cout << "Test Item Constructor" << std::endl;
-    std::string description = "Petto di pollo";
-    std::string category = "Carne";
-    std::string quantity = "2";
-    std::string bought = "false";
+TEST(ItemTest, Constructor) {
+    std::cout << "Test Item Constructor" << std::endl << std::endl;
+    std::cout << " Description : Petto di pollo" << std::endl;
+    std::cout << "Category : Carne" << std::endl;
+    std::cout << "Quantity : 2" << std::endl;
+    std::cout << "Bought : false" << std::endl;
 
     Item item("Petto di pollo", "Carne", 2);
     EXPECT_EQ(item.getDescription(), "Petto di pollo");
     EXPECT_EQ(item.getCategory(), "Carne");
     EXPECT_EQ(item.getQuantity(), 2);
     EXPECT_FALSE(item.isBought());
+    std::cout << "Oggetto creato correttamente" << std::endl << std::endl;
 
-    EXPECT_THROW(Item item2("Petto di pollo", "Carne", -4), std::invalid_argument); // controllo che il costruttore lanci un'eccezione se la quantità è negativa
+    std::cout << " Description : Petto di pollo" << std::endl;
+    std::cout << "Category : Carne" << std::endl;
+    std::cout << "Quantity : -4" << std::endl;
+    std::cout << "Bought : false" << std::endl;
 
-    std::cout << "Test Item Constructor" << std::endl;
+    /*EXPECT_THROW({
+                     try {
+                         Item item("Petto di pollo", "Proteine", -4);
+                     } catch (const NegativeQuantity &e) {
+                         std::cerr << "Eccezione catturata: " << e.what() << std::endl;
+                         throw;  // Rilancia l'eccezione per far sì che EXPECT_THROW la catturi
+                     }
+                 }, NegativeQuantity);
+                 */
+    EXPECT_THROW(Item("Petto di pollo", "Carne", -4), NegativeQuantity);
 
+    std::cout << "Test Item Constructor done " << std::endl << std::endl;
 }
