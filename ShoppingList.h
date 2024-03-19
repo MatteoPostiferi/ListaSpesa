@@ -11,8 +11,6 @@
 #include <list>
 #include "Item.h"
 #include "Subject.h"
-#include "ItemNotFound.h"
-#include "NegativeQuantity.h"
 #include <iostream>
 
 
@@ -43,9 +41,7 @@ public:
         return listName;
     }
 
-    auto find(const Item &item);                  // chiamato da altri metodi per seguire il principio DRY
-
-    auto searchItem(const std::string &descr);    // cercare un oggetto tramite la sua chiave (nome)
+    auto searchItem(const std::string &descr);
 
     void addToList(const Item &item);             // aggiungere un elemento alla lista
 
