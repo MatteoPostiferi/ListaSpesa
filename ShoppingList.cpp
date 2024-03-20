@@ -3,7 +3,8 @@
 //
 #include "ShoppingList.h"
 
-auto ShoppingList::searchItem(const std::string &descr) {                    // cerca un Item tramite la sua chiave (descrizione)
+std::map<std::string,Item>::iterator ShoppingList::searchItem(const std::string &descr)
+{                    // cerca un Item tramite la sua chiave (descrizione)
     for (auto itr = list.begin(); itr != list.end(); itr++) {
         if (itr->first == descr)
             return itr;                                                      // ritorna itr all'oggetto se la ricerca va a buon fine
@@ -41,7 +42,7 @@ void ShoppingList::decreaseQty(const Item &item) {                            //
         }
     }
     else
-        std::cout << "Elemento non presente, impossibile rimuoverlo" << std::endl;
+        std::cout << "Elemento non presente, impossibile decrementarne la quantità" << std::endl;
     notify();
 }
 

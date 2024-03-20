@@ -20,16 +20,9 @@ TEST(ItemTest, Constructor) {
     std::cout << "Quantity : -4" << std::endl;
     std::cout << "Bought : false" << std::endl;
 
-    /*EXPECT_THROW({
-                     try {
-                         Item item("Petto di pollo", "Proteine", -4);
-                     } catch (const NegativeQuantity &e) {
-                         std::cerr << "Eccezione catturata: " << e.what() << std::endl;
-                         throw;  // Rilancia l'eccezione per far sì che EXPECT_THROW la catturi
-                     }
-                 }, NegativeQuantity);
-                 */
     EXPECT_THROW(Item("Petto di pollo", "Carne", -4), NegativeQuantity);
+    std::cout << "Eccezione lanciata correttamente" << std::endl << std::endl;
 
     std::cout << "Test Item Constructor done " << std::endl << std::endl;
+
 }

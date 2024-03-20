@@ -41,7 +41,7 @@ public:
         return listName;
     }
 
-    auto searchItem(const std::string &descr);
+    std::map<std::string,Item>::iterator searchItem(const std::string &descr);
 
     void addToList(const Item &item);             // aggiungere un elemento alla lista
 
