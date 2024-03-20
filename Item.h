@@ -6,7 +6,6 @@
 #define LISTASPESA_ITEM_H
 
 #include <string>
-#include "ItemNotFound.h"
 #include "NegativeQuantity.h"
 
 class Item {
@@ -16,7 +15,9 @@ public:
         if (quantity < 0)
             throw NegativeQuantity();
     }
-Item(){}
+
+    Item(){}
+
     virtual ~Item() {}
 
     const std::string &getDescription() const {

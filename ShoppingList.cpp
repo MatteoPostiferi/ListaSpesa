@@ -3,14 +3,13 @@
 //
 #include "ShoppingList.h"
 
-auto ShoppingList::searchItem(const std::string &descr) {
-    for(auto itr = list.begin(); itr!= list.end(); itr++){
+auto ShoppingList::searchItem(const std::string &descr) {                    // cerca un Item tramite la sua chiave (descrizione)
+    for (auto itr = list.begin(); itr != list.end(); itr++) {
         if (itr->first == descr)
-            return itr->second;
+            return itr;                                                      // ritorna itr all'oggetto se la ricerca va a buon fine
     }
-    std::cout << "Elemento non presente nella lista" << std::endl;
+    return list.end();                                                       // altrimenti iteratore vuoto
 }
-
 
 
 void ShoppingList::addToList(const Item &item) {
