@@ -7,12 +7,11 @@
 
 
 #include "Observer.h"
-#include "ListGroup.h"
-#include "ItemsListCounter.h"
+#include "ItemsToBuyCounter.h"
 
-class TotalItemsCounter : public Observer {
+class TotalItemsCounter : public Observer {          // classe che conta il numero di articoli ancora da comprare in tutte le liste
 public:
-    explicit TotalItemsCounter(ListGroup *subject) : subject(subject) {
+    explicit TotalItemsCounter(ShoppingList *subject) : subject(subject) {
         subject->registerObserver(this);
     }
 
@@ -22,15 +21,15 @@ public:
 
     void update() const override{
         int count = 0;
-        for (auto l: subject->getListGroup()) {
+        for (auto l: subject->getList()) {
             count += itemsListCounter->countItems();
         }
-        std::cout << "Ci sono : " << count << " articoli ancora da comprare in totale" << std::endl << std::endl;
+        std::cout << "Ci sono : " << count << " articoli in totale nella lista" << std::endl << std::endl;
     }
 
 private:
-    ListGroup *subject;
-    ItemsListCounter *itemsListCounter;
+    ShoppingList *subject;
+    ItemsToBuyCounter *itemsListCounter;
 
 
 };

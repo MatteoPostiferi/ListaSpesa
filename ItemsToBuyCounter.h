@@ -2,21 +2,21 @@
 // Created by Matteo Postiferi on 24/11/2023.
 //
 
-#ifndef LISTASPESA_ITEMSLISTCOUNTER_H
-#define LISTASPESA_ITEMSLISTCOUNTER_H
+#ifndef LISTASPESA_ITEMSTOBUYCOUNTER_H
+#define LISTASPESA_ITEMSTOBUYCOUNTER_H
 
 
 #include <iostream>
 #include "Observer.h"
 #include "ShoppingList.h"
 
-class ItemsListCounter : public Observer {
+class ItemsToBuyCounter : public Observer {             // classe che conta il numero di articoli ancora da comprare in una lista
 public:
-    explicit ItemsListCounter(ShoppingList *subject) : subject(subject) {
+    explicit ItemsToBuyCounter(ShoppingList *subject) : subject(subject) {
         subject->registerObserver(this);
     }
 
-    ~ItemsListCounter() override {
+    ~ItemsToBuyCounter() override {
         subject->unregisterObserver(this);
     }
 
@@ -32,7 +32,7 @@ public:
 
     void update() const override {
         int count = countItems();
-        std::cout << subject->getListName() << ": ci sono " << count << " articoli ancora da comprare" << std::endl << std::endl;
+        std::cout << subject->getListName() << ": ci sono " << count << " articoli ancora da comprare nella lista" << std::endl << std::endl;
 
     }
 
@@ -41,4 +41,4 @@ private:
 };
 
 
-#endif //LISTASPESA_ITEMSLISTCOUNTER_H
+#endif //LISTASPESA_ITEMSTOBUYCOUNTER_H
