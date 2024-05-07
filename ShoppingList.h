@@ -41,7 +41,7 @@ public:
         return listName;
     }
 
-    std::map<std::string,Item>::iterator searchItem(const std::string &descr);
+    std::map<std::string,Item>::iterator searchItem(const std::string &descr);  // dato il nome di un oggetto, restituisce l'iteratore a quell'oggetto
 
     void addToList(const Item &item);             // aggiungere un elemento alla lista
 

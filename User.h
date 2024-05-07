@@ -5,37 +5,23 @@
 #ifndef LISTASPESA_USER_H
 #define LISTASPESA_USER_H
 
-
-#include <string>
-#include <vector>
 #include "ShoppingList.h"
 
 class User{
 public:
-    User(const std::string &name, const std::string &surname) : name(name), surname(surname) {}
+    User(const std::string &name, const std::string &surname);
 
-    ShoppingList findListByName(std::string listName) {
-        for (auto l: lists) {
-            if (l->getListName() == listName)
-                return *l;
-        }
-    }
+    void addList(ShoppingList* list);                     //aggiunge una lista esistente
 
-    void newListToManage(std::string listName) {
+    void addList(const std::string &listName);
 
+    void removeList(std::string name);
 
-    }
-
-
-
-
-
-
+    void changeName(const std::string &name);
 
 private:
     std::string name;
-    std::string surname;
-    std::vector<ShoppingList*> lists;
+    std::map<std::string, ShoppingList*> lists;            //liste in gestione all'utente
 
 
 };

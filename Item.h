@@ -10,60 +10,35 @@
 
 class Item {
 public:
-    Item(const std::string &description, const std::string &category, int quantity) : description(
-            description), category(category), quantity(quantity){
-        if (quantity < 0)
-            throw NegativeQuantity();
-    }
+    Item(const std::string &description, const std::string &category, int quantity);
 
-    Item(){}
+    Item();
 
-    virtual ~Item() {}
+    virtual ~Item();
 
-    const std::string &getDescription() const {
-        return description;
-    }
+    const std::string &getDescription() const;
 
-    void setDescription(const std::string &description) {
-        Item::description = description;
-    }
+    void setDescription(const std::string &description);
 
-    const std::string &getCategory() const {
-        return category;
-    }
+    const std::string &getCategory() const;
 
-    void setCategory(const std::string &category) {
-        Item::category = category;
-    }
+    void setCategory(const std::string &category);
 
-    int getQuantity() const {
-        return quantity;
-    }
+    int getQuantity() const;
 
-    void setQuantity(int quantity) {
-        Item::quantity = quantity;
-    }
+    void setQuantity(int quantity);
 
-    bool isBought() const {
-        return bought;
-    }
+    bool isBought() const;
 
-    void setBought(bool bought) {
-        Item::bought = bought;
-    }
+    void setBought(bool bought);
 
-    bool operator== (const Item &right) {         // elementi con stesse descrizione e categoria sono uguali
-        if (description == right.description && category == right.category)
-            return true;
-        else return false;
-    }
-
+    bool operator==(const Item &right) const;        // elementi con stesse descrizione e categoria sono uguali
 
 private:
     std::string description;
     std::string category;
     int quantity;
-    bool bought {false};
+    bool bought{false};
 
 };
 

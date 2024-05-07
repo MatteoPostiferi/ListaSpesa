@@ -10,31 +10,15 @@
 #include "Observer.h"
 #include "ShoppingList.h"
 
-class ItemsToBuyCounter : public Observer {             // classe che conta il numero di articoli ancora da comprare in una lista
+class ItemsToBuyCounter: public Observer {             // classe che conta il numero di articoli ancora da comprare in una lista
 public:
-    explicit ItemsToBuyCounter(ShoppingList *subject) : subject(subject) {
-        subject->registerObserver(this);
-    }
+    explicit ItemsToBuyCounter(ShoppingList *subject);
 
-    ~ItemsToBuyCounter() override {
-        subject->unregisterObserver(this);
-    }
+    ~ItemsToBuyCounter() override;
 
-    int countItems() const {
-        int count = 0;
-        for (auto s: subject->getList()) {
-            if (s.second.isBought() == false)
-                count++;
-        }
-        return count;
-    }
+    int countItems() const;
 
-
-    void update() const override {
-        int count = countItems();
-        std::cout << subject->getListName() << ": ci sono " << count << " articoli ancora da comprare nella lista" << std::endl << std::endl;
-
-    }
+    void update() const override;
 
 private:
     ShoppingList *subject;

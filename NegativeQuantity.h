@@ -10,7 +10,7 @@
 class NegativeQuantity : public std::exception {
 public:
     const char *what() const noexcept override {
-        return "Quantità negativa";
+        return "Negative quantity is not allowed!";
     };
 };
 
