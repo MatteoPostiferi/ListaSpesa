@@ -6,22 +6,33 @@
 #define LISTASPESA_USER_H
 
 #include "ShoppingList.h"
+#include <memory>
 
 class User{
 public:
-    User(const std::string &name, const std::string &surname);
+    User(const std::string &name);
 
     void addList(ShoppingList* list);                     //aggiunge una lista esistente
 
     void addList(const std::string &listName);
 
-    void removeList(std::string name);
+    void removeList(const std::string name);
 
     void changeName(const std::string &name);
 
+    void printLists() const;
+
+    const std::string &getName() const;
+
+    void setName(const std::string &name);
+
+    const std::map<std::string, ShoppingList *> &getLists() const;
+
+    void setLists(const std::map<std::string, ShoppingList *> &lists);
+
 private:
     std::string name;
-    std::map<std::string, ShoppingList*> lists;            //liste in gestione all'utente
+    std::map<std::string, ShoppingList* > lists;            //liste in gestione all'utente
 
 
 };

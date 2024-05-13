@@ -13,7 +13,7 @@ TEST(ItemTest, Constructor) {
     EXPECT_EQ(item.getCategory(), "Carne");
     EXPECT_EQ(item.getQuantity(), 2);
     EXPECT_FALSE(item.isBought());
-    std::cout << "Oggetto creato correttamente" << std::endl << std::endl;
+    std::cout << "Item successfully created" << std::endl << std::endl;
 
     std::cout << " Description : Petto di pollo" << std::endl;
     std::cout << "Category : Carne" << std::endl;
@@ -21,7 +21,7 @@ TEST(ItemTest, Constructor) {
     std::cout << "Bought : false" << std::endl;
 
     EXPECT_THROW(Item("Petto di pollo", "Carne", -4), NegativeQuantity);
-    std::cout << "Eccezione lanciata correttamente" << std::endl << std::endl;
+    std::cout << "Exception successfully thrown" << std::endl << std::endl;
 
     std::cout << "Test Item Constructor done " << std::endl << std::endl;
 

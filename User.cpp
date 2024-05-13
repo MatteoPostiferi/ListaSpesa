@@ -3,7 +3,7 @@
 //
 #include "User.h"
 
-User::User(const std::string &name, const std::string &surname) : name(name) {}
+User::User(const std::string &name) : name(name) {}
 
 void User::addList(ShoppingList* list){                     //aggiunge una lista esistente
     lists.insert({list->getListName(),list });
@@ -11,18 +11,19 @@ void User::addList(ShoppingList* list){                     //aggiunge una lista
 
 }
 
-void User::addList(const std::string &listName){
-    ShoppingList* list = new ShoppingList(listName);        //crea una nuova lista e la aggiunge
+void User::addList(const std::string &listName){           //crea una nuova lista e la aggiunge
+    ShoppingList* list = new ShoppingList(listName);
     lists.insert({listName,list });
     std::cout<< listName <<" is now a " << name << "'s responsibility" << std::endl;
 }
 
-void User::removeList(std::string listName){
-    auto it = lists.find(name);
+void User::removeList(const std::string listName){
+    auto it = lists.find(listName);
     if(it == lists.end()){
         std::cout << listName << " not found" << std::endl;
         return;
     }
+    //delete it->second;
     lists.erase(it);
     std::cout << listName << " is not a " << name << "'s responsibility anymore" << std::endl;
 
@@ -32,4 +33,29 @@ void User::changeName(const std::string &name){
     auto oldName = this->name;
     this->name = name;
     std::cout << "Name changed from " << oldName << " to " << name << std::endl;
+}
+
+void User::printLists() const {
+    std::cout << "Lists in " << name << "'s management :" ;
+    for(auto l: lists){
+        std::cout << l.first << " ";
+    }
+    std::cout << std::endl;
+}
+
+
+const std::string &User::getName() const {
+    return name;
+}
+
+void User::setName(const std::string &name) {
+    User::name = name;
+}
+
+const std::map<std::string, ShoppingList *> &User::getLists() const {
+    return lists;
+}
+
+void User::setLists(const std::map<std::string, ShoppingList *> &lists) {
+    User::lists = lists;
 }

@@ -62,7 +62,7 @@ TEST(ShoppingListTest, removeFromList) {
     shoppingList.removeFromList(item);                                  //rimuovo un elemento presente nella lista
     EXPECT_EQ(shoppingList.getList().size(), 1);                        // verifico che la lista sia stata ridotta di dimensione
 
-    std::cout <<"Provo a rimuovere: "<< item3.getDescription() << ": ";//rimuovo un elemento non presente nella lista, la quale non cambierà dimensione
+    std::cout <<"Trying to remove: "<< item3.getDescription() << ": ";//rimuovo un elemento non presente nella lista, la quale non cambierà dimensione
     shoppingList.removeFromList(item3);
     EXPECT_EQ(shoppingList.getList().size(), 1);                        //rimuovo un elemento presente nella lista
                                                                         // un elemento non presente nella lista
@@ -97,7 +97,7 @@ TEST(ShoppingListTest, decreaseQuantity) {
     shoppingList.decreaseQty(item5);                                    //decremento la quantità di un elemento più della quantità presente
     EXPECT_EQ(shoppingList.getList().size(), 2);                        //e controllo che la lista non sia stata ridotta di dimensione
 
-    std::cout << "Provo a diminuire la quantità di: " << item4.getDescription() << ". ";
+    std::cout << "Trying to decrease : " << item4.getDescription() << "quantity ";
     shoppingList.decreaseQty(item6);                                    //decremento la quantità di un elemento non presente nella lista
     std::cout << "Test ShoppingList decreaseQuantity Done" << std::endl << std::endl;
 
@@ -121,11 +121,11 @@ TEST(ShoppingListTest, buyItem) {
     shoppingList.buyItem(item3);
     EXPECT_TRUE(shoppingList.searchItem("Uova")->second.isBought());    //controllo che l'elemento venga segnato come comprato
 
-    std::cout << "Provo a comprare: " << item4.getDescription() << ": ";
+    std::cout << "Trying to buy: " << item4.getDescription() << ": ";
     shoppingList.buyItem(item4);
     EXPECT_EQ(shoppingList.getList().size(), 2);
 
-    std::cout << "Provo a comprare: " << item5.getDescription() << ": ";
+    std::cout << "Trying to buy: " << item5.getDescription() << ": ";
     shoppingList.buyItem(item5);
 
     std::cout << "Test ShoppingList buyItem Done" << std::endl;
