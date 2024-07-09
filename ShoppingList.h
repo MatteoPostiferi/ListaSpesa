@@ -11,7 +11,6 @@
 #include <list>
 #include "Item.h"
 #include "Subject.h"
-#include <iostream>
 
 
 class ShoppingList : public Subject {

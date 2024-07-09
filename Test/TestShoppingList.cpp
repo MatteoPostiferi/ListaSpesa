@@ -17,6 +17,7 @@ TEST(ShoppingListTest, searchItem){
     Item item("Uova", "Proteine", 8);
     Item item2("Pane", "Carboidrati", 4);
     ShoppingList shoppingList("Test List");
+    shoppingList.addToList(item2);
     auto itr = shoppingList.searchItem("Pane");                         // provo a cercare un elemento presente nella lista tramite la sua chiave
     EXPECT_EQ(itr->second, item2);                                      // controllo che l'elemento cercato sia quello corretto
     std::cout << "Test ShoppingList searchItem Done" << std::endl << std::endl;
