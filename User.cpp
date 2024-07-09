@@ -2,6 +2,7 @@
 // Created by matte on 06/05/2024.
 //
 #include "User.h"
+#include <iostream>
 
 User::User(const std::string &name) : name(name) {}
 

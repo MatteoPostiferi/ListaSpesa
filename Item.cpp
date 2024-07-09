@@ -12,7 +12,7 @@ Item::Item(const std::string &description, const std::string &category, int quan
 
 Item::Item(){}
 
- Item::~Item() {}
+Item::~Item() {}
 
 const std::string& Item::getDescription() const {
     return description;

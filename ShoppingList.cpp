@@ -2,6 +2,9 @@
 // Created by Matteo Postiferi on 24/11/2023.
 //
 #include "ShoppingList.h"
+#include <iostream>
+
+
 
 std::map<std::string,Item>::iterator ShoppingList::searchItem(const std::string &descr){    // cerca un Item tramite la sua chiave (descrizione)
     for (auto itr = list.begin(); itr != list.end(); itr++) {

@@ -6,8 +6,9 @@ add_subdirectory(Test) #dico al cmake di controllare se nella cartella Test c'è
                        #Test ha il suo progetto cmake !!
 
 
-set(SOURCE_FILES main.cpp Item.cpp ShoppingList.cpp ItemsToBuyCounter.cpp TotalItemsCounter.cpp)
+set(SOURCE_FILES Item.cpp ShoppingList.cpp ItemsToBuyCounter.cpp TotalItemsCounter.cpp User.cpp)
 add_executable(ListaSpesa ${SOURCE_FILES}) #potevo aggiungere solo il main se includevo gli header?
-add_library(core ${SOURCE_FILES} NegativeQuantity.h User.cpp User.h) #tratto i test come una libreria di nome core?
+add_library(core ${SOURCE_FILES} NegativeQuantity.h User.h
+        main.cpp) #tratto i test come una libreria di nome core?
 target_link_libraries(ListaSpesa core)
 
