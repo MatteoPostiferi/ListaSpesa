@@ -1,10 +1,9 @@
+//
+// Created by Matteo Postiferi on 18/07/24.
+//
 #include <iostream>
-#include "Item.h"
-#include "Shoppinglist.h"
-#include "TotalItemsCounter.h"
-#include "Subject.h"
-#include "Observer.h"
 
 int main() {
-
+    std::cout << "Go check GoogleTests" << std::endl;
+    return 0;
 }

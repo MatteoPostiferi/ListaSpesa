@@ -12,8 +12,6 @@ class Item {
 public:
     Item(const std::string &description, const std::string &category, int quantity);
 
-    Item();
-
     virtual ~Item();
 
     const std::string &getDescription() const;
