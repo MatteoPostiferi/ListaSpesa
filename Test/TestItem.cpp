@@ -2,8 +2,8 @@
 #include <gtest/gtest.h>
 
 TEST(ItemTest, Constructor) {
-    std::cout << "Test Item Constructor" << std::endl << std::endl;
-    std::cout << " Description : Petto di pollo" << std::endl;
+    std::cout << "Test Item Constructor" << std::endl;
+    std::cout << "Description : Petto di pollo" << std::endl;
     std::cout << "Category : Carne" << std::endl;
     std::cout << "Quantity : 2" << std::endl;
     std::cout << "Bought : false" << std::endl;
@@ -21,7 +21,7 @@ TEST(ItemTest, Constructor) {
     std::cout << "Bought : false" << std::endl;
 
     EXPECT_THROW(Item("Petto di pollo", "Carne", -4), NegativeQuantity);
-    std::cout << "Exception successfully thrown" << std::endl << std::endl;
+    std::cout << "Exception successfully thrown" << std::endl;
 
     std::cout << "Test Item Constructor done " << std::endl << std::endl;
 

@@ -4,18 +4,17 @@
 
 #include "TotalItemsCounter.h"
 
-TotalItemsCounter::TotalItemsCounter(ShoppingList *subject) : subject(subject) {
+TotalItemsCounter::TotalItemsCounter(ShoppingList* subject) : subject(subject)
+{
     subject->registerObserver(this);
 }
 
-void TotalItemsCounter::update() const {
-    int count = 0;
-    for (auto l: subject->getList()) {
-        count += itemsListCounter->countItems();
-    }
-    std::cout << "There are : " << count << " items in total in the list" << std::endl << std::endl;
+void TotalItemsCounter::update() const
+{
+    std::cout << "There are " << subject->getTotalItems() << " items in total in the list" << std::endl;
 }
 
-TotalItemsCounter::~TotalItemsCounter() {
+TotalItemsCounter::~TotalItemsCounter()
+{
     subject->unregisterObserver(this);
 }

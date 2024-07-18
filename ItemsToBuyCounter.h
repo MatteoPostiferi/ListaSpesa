@@ -10,18 +10,18 @@
 #include "Observer.h"
 #include "ShoppingList.h"
 
-class ItemsToBuyCounter: public Observer {             // classe che conta il numero di articoli ancora da comprare in una lista
+class ItemsToBuyCounter : public Observer
+{
+    // classe che conta il numero di articoli ancora da comprare in una lista
 public:
-    explicit ItemsToBuyCounter(ShoppingList *subject);
+    explicit ItemsToBuyCounter(ShoppingList* subject);
 
     ~ItemsToBuyCounter() override;
-
-    int countItems() const;
 
     void update() const override;
 
 private:
-    ShoppingList *subject;
+    ShoppingList* subject;
 };
 
 
